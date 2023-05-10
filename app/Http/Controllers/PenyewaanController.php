@@ -26,8 +26,13 @@ class PenyewaanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function tambah_data_nyewa()
     {
+        
+        $data = [
+            'result'    =>  PenyewaanModel::all(),
+        ];
+        return view('penyewaan.tambah_nyewa',$data);
     }
 
     /**
@@ -75,7 +80,6 @@ class PenyewaanController extends Controller
             'result'    =>  NyewaModel::where('id',$id)->get()
         ];
 
-        dd($data['result']);
         return view("penyewaan.nyewa_petani", $data);
     }
 

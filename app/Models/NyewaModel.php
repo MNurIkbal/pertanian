@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class NyewaModel extends Model
 {
     use HasFactory;
-    protected $table = 'penyewaan';
+    protected $table = 'nyewa';
     protected $primaryKey = 'id';
     public $timestamps = false;
     protected $fillable = [
@@ -21,6 +21,6 @@ class NyewaModel extends Model
 
     public function penyewaan()
     {
-        return $this->hasMany(PenyewaanModel::class,'id');
+        return $this->hasMany(PenyewaanModel::class);
     }
 }
