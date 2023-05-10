@@ -27,7 +27,6 @@ Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->nam
 Route::post('/login', [AuthController::class, 'auth']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/diskusi', [DiskusiController::class, 'index'])->name('diskusi.index');
@@ -40,5 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::post('komentar-diskusi/{id}', [KomentarDiskusiController::class, 'store'])->name('komentar.store');
     Route::post('komentar-diskusi/{id}/update', [KomentarDiskusiController::class, 'update'])->name('komentar.update');
     Route::post('komentar-diskusi/{diskusi_id}/{komentar_id}', [KomentarDiskusiController::class, 'storeKomentar'])->name('komentar.store-komentar');
-    Route::get("/penyewaan",[PenyewaanController::class,'index']);
+    Route::get("/penyewaan",[PenyewaanController::class,'index'])->name('penyewaan.index');
+    Route::post("/tambah_nyewa",[PenyewaanController::class,'store']);
+    Route::post("/edit_nyewa",[PenyewaanController::class,'update']);
+    Route::get("/hapus_nyewa/{id}",[PenyewaanController::class,'destroy']);
 });

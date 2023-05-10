@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenyewaanModel;
 use Illuminate\Http\Request;
 
 class PenyewaanController extends Controller
@@ -14,9 +15,9 @@ class PenyewaanController extends Controller
     public function index()
     {
         $data = [
-
+            'result'    =>  PenyewaanModel::all(),
         ];
-        return view("penyewaan.index",$data);
+        return view("penyewaan.index", $data);
     }
 
     /**
@@ -26,7 +27,6 @@ class PenyewaanController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -37,7 +37,28 @@ class PenyewaanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        try {
+            $tujuan_upload = 'assets/img/';
+            $file = $request->file("foto");
+            $nama_file = $file->getClientOriginalName();
+            $file->move($tujuan_upload, $file->getClientOriginalName());
+
+            $nyewa = new PenyewaanModel();
+            $nyewa->nama_nyewa = $request->nama_alat;
+            $nyewa->jenis = $request->jenis;
+            $nyewa->satuan = $request->satuan;
+            $nyewa->expired = $request->expired;
+            $nyewa->biaya = $request->biaya;
+            $nyewa->pesan = $request->pesan;
+            $nyewa->created_at = now();
+            $nyewa->img = $nama_file;
+            $nyewa->unit = $request->unit;
+            $nyewa->save();
+            return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('success', 'Data Gagal Ditambahkan');
+        }
     }
 
     /**
@@ -69,9 +90,38 @@ class PenyewaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+        $img_lama = $request->foto_lama;
+
+        $tujuan_upload = 'assets/img/';
+        $file = $request->file("foto");
+        if(isset($file)) {
+            $nama_file = $file->getClientOriginalName();
+            $file->move($tujuan_upload, $file->getClientOriginalName());
+        } else {
+            $nama_file = $img_lama;
+        }
+
+        try {
+            //code...
+            PenyewaanModel::where("id",$id)->update([
+                'nama_nyewa'    =>  $request->nama_alat,
+                'jenis' =>  $request->jenis,
+                'satuan'    =>  $request->satuan,
+                'expired'   =>  $request->expired,
+                'biaya' =>  $request->biaya,
+                'pesan' =>  $request->pesan,
+                'img'   =>  $nama_file,
+                'unit'  =>  $request->unit
+            ]);
+    
+            return redirect()->back()->with('success','Data Berhasil Diupdate');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error','Data Gagal Diupdate');
+            //throw $th;
+        }
     }
 
     /**
@@ -82,6 +132,13 @@ class PenyewaanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            PenyewaanModel::where("id",$id)->delete();
+            return redirect()->back()->with('success','Data Berhasil Di Hapus');
+            //code...
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error','Data Gagal Di Hapus');
+            //throw $th;
+        }
     }
 }

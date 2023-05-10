@@ -88,7 +88,7 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item @yield('penyewaan')">
-            <a href="{{ url('penyewaan') }}" class="menu-link">
+            <a href="{{ route('penyewaan.index') }}" class="menu-link">
               <div data-i18n="Basic">Penyewaan</div>
             </a>
           </li>
