@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NyewaModel;
+use App\Models\PenyewaanModel;
 use Illuminate\Http\Request;
 
 class KeuanganController extends Controller
@@ -13,7 +15,10 @@ class KeuanganController extends Controller
      */
     public function index()
     {
-        //
+        $data = [
+            'result'    =>  PenyewaanModel::all(),
+        ];
+        return view("keuangan.index", $data);
     }
 
     /**
@@ -21,9 +26,12 @@ class KeuanganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function detail_penyewa_keuangan($id)
     {
-        //
+        $data = [
+            'result'    => NyewaModel::where("penyewaan_id", $id)->get()
+        ];
+        return view('keuangan.detail_penyewa', $data);
     }
 
     /**

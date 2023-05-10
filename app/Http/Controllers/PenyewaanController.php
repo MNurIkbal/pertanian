@@ -76,9 +76,7 @@ class PenyewaanController extends Controller
     {
         try {
 
-            NyewaModel::where("id", $id)->update([
-                'status'    =>  'tolak'
-            ]);
+            NyewaModel::where("id", $id)->delete();
 
             return redirect()->back()->with('success', "Data Berhasil Diupdate");
             //code...

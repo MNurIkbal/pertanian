@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiskusiController;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\KomentarDiskusiController;
 use App\Http\Controllers\PenyewaanController;
 use Illuminate\Support\Facades\Route;
@@ -50,4 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get("/tambah_data_nyewa",[PenyewaanController::class,'tambah_data_nyewa']);
     Route::post("/pesan_sekarang",[PenyewaanController::class,'pesan_sekarang']);
     Route::post("/approve",[PenyewaanController::class,'approve']);
+    
+    
+    Route::get("/keuangan",[KeuanganController::class,'index']);
+    Route::get("/detail_penyewa_keuangan/{id}",[KeuanganController::class,'detail_penyewa_keuangan']);
 });
