@@ -209,6 +209,7 @@
                                     <td>{{ $row->unit }} Unit</td>
                                     <td>{{ date('d, F Y', strtotime($row->expired)) }}</td>
                                     <td>
+                                        <a href="{{ url("detail_penyewa/$row->id") }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#edit{{ $row->id }}"><i class="fas fa-pen"></i></a>
                                         <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"

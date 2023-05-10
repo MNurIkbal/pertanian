@@ -42,7 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::get("/penyewaan",[PenyewaanController::class,'index'])->name('penyewaan.index');
     Route::post("/tambah_nyewa",[PenyewaanController::class,'store']);
     Route::post("/edit_nyewa",[PenyewaanController::class,'update']);
+    Route::get("/hapus_nyewa_detail/{id}",[PenyewaanController::class,'hapus_nyewa_detail']);
     Route::get("/hapus_nyewa/{id}",[PenyewaanController::class,'destroy']);
+    Route::get("/detail_penyewa/{id}",[PenyewaanController::class,'detail_penyewa']);
+    Route::get("/tolak_approve/{id}",[PenyewaanController::class,'tolak_approve']);
     Route::get("/nyewa_petani",[PenyewaanController::class,'nyewa_petani']);
     Route::get("/tambah_data_nyewa",[PenyewaanController::class,'tambah_data_nyewa']);
+    Route::post("/pesan_sekarang",[PenyewaanController::class,'pesan_sekarang']);
+    Route::post("/approve",[PenyewaanController::class,'approve']);
 });

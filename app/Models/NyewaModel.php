@@ -16,7 +16,13 @@ class NyewaModel extends Model
         'user_id',
         'created_at',
         'status',
-        'img'
+        'img',
+        'alamat',
+        'active',
+        'no_hp',
+        'unit_sewa',
+        'lama_nyewa',
+        'jatuh_tempo'
     ];
 
     public function penyewaan()

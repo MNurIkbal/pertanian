@@ -53,7 +53,7 @@
                                                 aria-hidden="true">
                                                 <div class="modal-dialog  modal-lg" role="document">
                                                     <form method="POST" enctype="multipart/form-data" class="modal-content"
-                                                        action="{{ url('edit_nyewa') }}">
+                                                        action="{{ url('pesan_sekarang') }}">
                                                         <input type="hidden" name="id" value="{{ $row->id }}">
                                                         @csrf
                                                         <div class="modal-header">
@@ -76,15 +76,44 @@
                                                                 <option value="5 Tahun">5 Tahun</option>
                                                             </select>
                                                            </div>
+                                                           <br>
                                                            <div class="mb-1">
-                                                            <label for="">Jatuh Tempo</label>
-                                                            <input type="date" class="form-control" value="">
+                                                            <label for="">Alamat</label>
+                                                            <textarea name="alamat" id="" class="form-control" required cols="30" rows="5"></textarea>
+                                                           </div>
+                                                           <br>
+                                                           <div class="mb-1">
+                                                            <label for="">No Hp</label>
+                                                            <input type="number" class="form-control" name="no_hp" required>
+                                                           </div>
+                                                           <br>
+                                                           <div class="mb-1">
+                                                            <label for="">Unit Yang Di Sewa</label>
+                                                            <select name="unit_sewa" class="form-control " required  id="">
+                                                                <option value="">Pilih</option>
+                                                                <option value="1">1 Unit</option>
+                                                                <option value="2">2 Unit</option>
+                                                                <option value="3">3 Unit</option>
+                                                                <option value="1">4 Unit</option>
+                                                                <option value="5">5 Unit</option>
+                                                                <option value="6">6 Unit</option>
+                                                                <option value="7">7 Unit</option>
+                                                                <option value="8">8 Unit</option>
+                                                                <option value="9">9 Unit</option>
+                                                                <option value="10">10 Unit</option>
+                                                            </select>
+                                                           </div>
+                                                           <br>
+                                                           <div class="alert alert-warning">
+                                                            <p>
+                                                                Persiapkan terlebih dahulu untuk melakukan pemesanan.
+                                                            </p>
                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-label-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
-                                                            <a href="{{ url("hapus_nyewa/$row->id") }}" class="btn btn-primary">Hapus</a>
+                                                            <button type="submit" class="btn btn-primary">Pesan</button>
                                                         </div>
                                                     </form>
                                                 </div>
