@@ -81,6 +81,7 @@
           <div data-i18n="Analytics">Diskusi</div>
         </a>
       </li>
+      @if (session('role') == 1)
       <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons fas fa-book"></i>
@@ -99,5 +100,25 @@
           </li>
         </ul>
       </li>
+      @else
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons fas fa-book"></i>
+          <div data-i18n="Authentications">Transaksi</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item @yield('penyewaan')">
+            <a href="{{ url('nyewa_petani') }}" class="menu-link">
+              <div data-i18n="Basic">Penyewaan</div>
+            </a>
+          </li>
+          <li class="menu-item @yield('keuangan')">
+            <a href="{{ url('keuangan') }}" class="menu-link">
+              <div data-i18n="Basic">Keuangan</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+      @endif
     </ul>
   </aside>

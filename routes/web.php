@@ -43,4 +43,5 @@ Route::middleware('auth')->group(function () {
     Route::post("/tambah_nyewa",[PenyewaanController::class,'store']);
     Route::post("/edit_nyewa",[PenyewaanController::class,'update']);
     Route::get("/hapus_nyewa/{id}",[PenyewaanController::class,'destroy']);
+    Route::get("/nyewa_petani",[PenyewaanController::class,'nyewa_petani']);
 });

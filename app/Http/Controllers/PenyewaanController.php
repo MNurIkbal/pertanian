@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NyewaModel;
 use App\Models\PenyewaanModel;
 use Illuminate\Http\Request;
 
@@ -67,9 +68,15 @@ class PenyewaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function nyewa_petani()
     {
-        //
+        $id = session('id');
+        $data = [
+            'result'    =>  NyewaModel::where('id',$id)->get()
+        ];
+
+        dd($data['result']);
+        return view("penyewaan.nyewa_petani", $data);
     }
 
     /**
