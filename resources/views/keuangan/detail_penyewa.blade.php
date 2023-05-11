@@ -57,37 +57,7 @@
                                     <td>{{ $row->alamat }}</td>
                                     <td>{{ date('d, F Y', strtotime($row->created_at)) }}</td>
                                     <td>
-                                        @if ($row->status == "aktif")
-                                            
-                                        <a href="#" class="btn btn-sm btn-primary   "><i class="fas fa-check"></i></a>
-                                        @elseif($row->status == "belum aktif")
-                                        <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#edit{{ $row->id }}"><i class="fas fa-pen"></i></a>
-                                        <div class="modal fade" id="edit{{ $row->id }}" tabindex="-1"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog  modal-lg" role="document">
-                                                <form method="POST" enctype="multipart/form-data" class="modal-content"
-                                                    action="{{ url('approve') }}">
-                                                    <input type="hidden" name="id" value="{{ $row->id }}">
-                                                    @csrf
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalFullTitle">Persetujuan Penyewaan Alat</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                   <div class="modal-body">
-                                                    <h5>Apakah Anda Yakin Ingin Menyewakan Alat Ini!</h5>
-                                                   </div>
-                                                    <div class="modal-footer">
-                                                        <a href="{{ url("tolak_approve/$row->id") }}" class="btn btn-danger">Tolak</a>
-                                                        <button type="submit" class="btn btn-primary">Iya</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        @else
-                                        <a href="#" class="btn btn-sm btn-primary   "><i class="fa-solid fa-xmark"></i></a>
-                                        @endif
+                                        <a href="{{ url('bayar/' . $row->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

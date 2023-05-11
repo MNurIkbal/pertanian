@@ -51,9 +51,13 @@ class KeuanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function bayar($id)
     {
-        //
+        $data = [
+            // 'result'    =>  
+        ];
+
+        return view('keuangan.pembayaran',$data);
     }
 
     /**
