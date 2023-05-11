@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     
     
     Route::get("/keuangan",[KeuanganController::class,'index']);
+    Route::post("/bayar_sekarang",[KeuanganController::class,'bayar_sekarang']);
     Route::get("/detail_penyewa_keuangan/{id}",[KeuanganController::class,'detail_penyewa_keuangan']);
     Route::get("/bayar/{id}",[KeuanganController::class,'bayar']);
 });

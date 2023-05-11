@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NyewaModel;
+use App\Models\PembayaranModel;
 use App\Models\PenyewaanModel;
 use Illuminate\Http\Request;
 
@@ -53,11 +54,14 @@ class KeuanganController extends Controller
      */
     public function bayar($id)
     {
+        $result = NyewaModel::where("id", $id)->first();
         $data = [
-            // 'result'    =>  
+            'result'    =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->get(),
+            'id'    =>  $id,
+            'ids'   =>  $result->penyewaan_id,
         ];
 
-        return view('keuangan.pembayaran',$data);
+        return view('keuangan.pembayaran', $data);
     }
 
     /**
@@ -66,9 +70,37 @@ class KeuanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function bayar_sekarang(Request $request)
     {
-        //
+        try {
+            //code...
+            $tujuan_upload = 'assets/img/';
+            $file = $request->file("foto");
+            $nama_file = $file->getClientOriginalName();
+            $file->move($tujuan_upload, $file->getClientOriginalName());
+    
+            $id = $request->id;
+            $result = NyewaModel::where("id",$id)->first();
+            $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
+    
+            if($request->nominal > $check->biaya) {
+                return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
+            } elseif($request->nominal > $check->biaya) {
+                return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
+            }
+            $bayar = new PembayaranModel();
+            $bayar->user_id = $result->user_id;
+            $bayar->nominal = $request->nominal;
+            $bayar->img = $nama_file;
+            $bayar->created_at = now();
+            $bayar->nyewa_id = $id;
+            $bayar->pesan = $request->pesan;
+            $bayar->save();
+            return redirect()->to('keuangan')->with('success',"Data Berhasil Di Tambahkan");
+        } catch (\Throwable $th) {
+            return redirect()->to('error')->with('success',"Data Gagal Di Tambahkan");
+            //throw $th;
+        }
     }
 
     /**
