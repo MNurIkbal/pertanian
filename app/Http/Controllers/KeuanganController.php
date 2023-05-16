@@ -1,11 +1,14 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\NyewaModel;
 use App\Models\PembayaranModel;
 use App\Models\PenyewaanModel;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KeuanganController extends Controller
 {
@@ -29,10 +32,44 @@ class KeuanganController extends Controller
      */
     public function detail_penyewa_keuangan($id)
     {
+
+        $role = session('role');
         $data = [
-            'result'    => NyewaModel::where("penyewaan_id", $id)->get()
+            'result'    => NyewaModel::where("penyewaan_id", $id)->where('status','aktif')->orwhere('status','selesai')->get(),
+            'first' =>  PenyewaanModel::where('id',$id)->first(),
+            'role'  =>  $role,
         ];
         return view('keuangan.detail_penyewa', $data);
+    }
+
+    public function edit_bayar_sekarang(Request $request)
+    {
+        $id = $request->id;
+        
+        $tujuan_upload = 'assets/img/';
+        $file = $request->file("foto");
+        if(isset($file)) {
+            $nama_file = $file->getClientOriginalName();
+            $file->move($tujuan_upload, $file->getClientOriginalName());
+        } else {
+            $nama_file = $request->foto_lama;
+        }
+        
+        
+        try {
+            DB::table("pembayaran")->update([
+                'nominal'   =>  $request->nominal,
+                'img'   =>  $nama_file,
+                'pesan' =>  $request->pesan
+            ]);
+    
+            
+            return redirect()->back()->with('success','Data Berhasil Diupdate');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error','Data Gagal Diupdate');
+            //throw $th;
+        }
+
     }
 
     /**
@@ -58,7 +95,12 @@ class KeuanganController extends Controller
         $data = [
             'result'    =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->get(),
             'id'    =>  $id,
+            'user_id'   =>  $result->user_id,
+            'hasil' =>  $result,
             'ids'   =>  $result->penyewaan_id,
+            'main'  =>  User::where("id",$result->user_id)->first(),
+            'first' =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
+            'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count()
         ];
 
         return view('keuangan.pembayaran', $data);
@@ -84,9 +126,9 @@ class KeuanganController extends Controller
             $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
     
             if($request->nominal > $check->biaya) {
-                return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
-            } elseif($request->nominal > $check->biaya) {
                 return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
+            } elseif($request->nominal < $check->biaya) {
+                return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
             }
             $bayar = new PembayaranModel();
             $bayar->user_id = $result->user_id;
@@ -96,9 +138,15 @@ class KeuanganController extends Controller
             $bayar->nyewa_id = $id;
             $bayar->pesan = $request->pesan;
             $bayar->save();
-            return redirect()->to('keuangan')->with('success',"Data Berhasil Di Tambahkan");
+
+            $today =$result->jatuh_tempo; // Tanggal hari ini
+            $nextMonth = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+            NyewaModel::where("id",$id)->update([
+                'jatuh_tempo'   => $nextMonth
+            ]);
+            return redirect()->back()->with('success',"Data Berhasil Di Tambahkan");
         } catch (\Throwable $th) {
-            return redirect()->to('error')->with('success',"Data Gagal Di Tambahkan");
+            return redirect()->back()->with('success',"Data Gagal Di Tambahkan");
             //throw $th;
         }
     }
@@ -110,9 +158,18 @@ class KeuanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function selesai_bayar($id,$user_id)
     {
-        //
+        try {
+            //code...
+            NyewaModel::where("id",$id)->update([
+                'status'    =>  'selesai'
+            ]); 
+            return redirect()->back()->with('success',"Data Berhasil Update");
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error',"Data Gagal Update");
+            //throw $th;
+        }
     }
 
     /**
@@ -121,8 +178,31 @@ class KeuanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function hapus_bayar($id)
     {
-        //
+        try {
+            PembayaranModel::where("id",$id)->delete();
+            return redirect()->back()->with('success',"Data Berhasil Dihapus");
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error',"Data Gagal Dihapus");
+            //throw $th;
+        }
+    }
+
+    public function bayar_pekerjaan($id)
+    {
+        $result = NyewaModel::where("id", $id)->first();
+        $data = [
+            'result'    =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->get(),
+            'id'    =>  $id,
+            'user_id'   =>  $result->user_id,
+            'hasil' =>  $result,
+            'ids'   =>  $result->penyewaan_id,
+            'main'  =>  User::where("id",$result->user_id)->first(),
+            'first' =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
+            'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count()
+        ];
+
+        return view('keuangan.pembayaran_pekerjaan', $data);
     }
 }

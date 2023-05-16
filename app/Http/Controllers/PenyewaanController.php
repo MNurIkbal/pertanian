@@ -39,7 +39,8 @@ class PenyewaanController extends Controller
     public function detail_penyewa($id)
     {
         $data = [
-            'result'    => NyewaModel::where("penyewaan_id", $id)->get()
+            'hasil' =>  PenyewaanModel::where('id',$id)->first(),
+            'result'    => NyewaModel::where("penyewaan_id", $id)->where('status','belum aktif')->orwhere('status','aktif')->get()
         ];
         return view('penyewaan.detail_penyewa', $data);
     }
@@ -59,9 +60,8 @@ class PenyewaanController extends Controller
                 'status'    =>  'aktif'
             ]);
 
-
             PenyewaanModel::where("id", $result['penyewaan_id'])->update([
-                'unit'  =>  $hasil->unit - $result->unit_nyewa
+                'unit'  =>  $hasil->unit - $result->unit_sewa
             ]);
 
             return redirect()->back()->with('success', "Data Berhasil Diupdate");
@@ -104,12 +104,12 @@ class PenyewaanController extends Controller
             $file->move($tujuan_upload, $file->getClientOriginalName());
 
             $nyewa = new PenyewaanModel();
-            $nyewa->nama_nyewa = $request->nama_alat;
-            $nyewa->jenis = $request->jenis;
-            $nyewa->satuan = $request->satuan;
+            $nyewa->nama_nyewa = $request->nama_penyewa;
+            $nyewa->jenis = $request->nama_alat;
+            $nyewa->satuan = $request->tanah;
             $nyewa->expired = $request->expired;
             $nyewa->biaya = $request->biaya;
-            $nyewa->pesan = $request->pesan;
+            $nyewa->pesan = $request->alamat;
             $nyewa->created_at = now();
             $nyewa->img = $nama_file;
             $nyewa->unit = $request->unit;
@@ -254,6 +254,25 @@ class PenyewaanController extends Controller
             //code...
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Data Gagal Di Hapus');
+            //throw $th;
+        }
+    }
+
+    public function edit_pesan_sekarang(Request $request)
+    {
+        $id = $request->id;
+
+        try {
+            NyewaModel::where("id",$id)->update([
+                'alamat'    =>  $request->alamat,
+                'no_hp' =>  $request->no_hp,
+                'unit_sewa' =>  $request->unit_sewa,
+                'lama_nyewa'    =>  $request->lama_nyewa
+            ]);
+
+            return redirect()->back()->with('success','Data Berhasil Diupdate');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error','Data Gagal Diupdate');
             //throw $th;
         }
     }

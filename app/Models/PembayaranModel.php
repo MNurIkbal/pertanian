@@ -16,6 +16,7 @@ class PembayaranModel extends Model
         'nominal',
         'img',
         'created_at',
-        'nyewa_id'
+        'nyewa_id',
+        'pesan'
     ];
 }

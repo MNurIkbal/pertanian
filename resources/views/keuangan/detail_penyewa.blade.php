@@ -9,9 +9,15 @@
 @endsection
 
 @section('content')
+
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card p-3">
-            <h5 class="card-header">Detail Keuangan </h5>
+            <div>
+                <h5 class="card-header">Detail Keuangan </h5>
+            <h5 style="margin-left: 20px">Nama Penyewa : {{ $first->nama_nyewa }}</h5>
+            <h5 style="margin-left: 20px">Nama ALat : {{ $first->jenis }}</h5>
+            <h5 style="margin-left: 20px">Biaya : Rp.{{ number_format($first->biaya,0) }}</h5>
+            </div>
             <br>
             @if (session('success'))
                 <div class="alert alert-success">
@@ -57,7 +63,11 @@
                                     <td>{{ $row->alamat }}</td>
                                     <td>{{ date('d, F Y', strtotime($row->created_at)) }}</td>
                                     <td>
+                                        @if ($role == 1)
                                         <a href="{{ url('bayar/' . $row->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
+                                        @else
+                                        <a href="{{ url('bayar_pekerjaan/' . $row->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -51,10 +51,15 @@ Route::middleware('auth')->group(function () {
     Route::get("/tambah_data_nyewa",[PenyewaanController::class,'tambah_data_nyewa']);
     Route::post("/pesan_sekarang",[PenyewaanController::class,'pesan_sekarang']);
     Route::post("/approve",[PenyewaanController::class,'approve']);
+    Route::post("/edit_pesan_sekarang",[PenyewaanController::class,'edit_pesan_sekarang']);
     
     
     Route::get("/keuangan",[KeuanganController::class,'index']);
+    Route::post("/edit_bayar_sekarang",[KeuanganController::class,'edit_bayar_sekarang']);
     Route::post("/bayar_sekarang",[KeuanganController::class,'bayar_sekarang']);
     Route::get("/detail_penyewa_keuangan/{id}",[KeuanganController::class,'detail_penyewa_keuangan']);
     Route::get("/bayar/{id}",[KeuanganController::class,'bayar']);
+    Route::get("/bayar_pekerjaan/{id}",[KeuanganController::class,'bayar_pekerjaan']);
+    Route::get("/hapus_bayar/{id}",[KeuanganController::class,'hapus_bayar']);
+    Route::get("/selesai_bayar/{id}/{user_id}",[KeuanganController::class,'selesai_bayar']);
 });

@@ -40,12 +40,12 @@
                                             <img src="{{ asset("assets/img/" . $row->img) }}" style="width:250px;height:auto" class="img-thumbnail" alt="">
                                         </div>
                                     </li>
-                                    <li class="list-group-item">Jenis : {{ $row->jenis }}</li>
-                                    <li class="list-group-item">Satuan : {{ $row->satuan }}</li>
+                                    <li class="list-group-item">Nama Alat : {{ $row->jenis }}</li>
+                                    <li class="list-group-item">Luas Tanah : {{ $row->satuan }}</li>
                                     <li class="list-group-item">Biaya : Rp. {{ number_format($row->biaya,0) }} Perbulan</li>
-                                    <li class="list-group-item">Expired : {{ date("d, F Y",strtotime($row->expired)) }}</li>
+                                    <li class="list-group-item">Tanggal Sewa    : {{ date("d, F Y",strtotime($row->expired)) }}</li>
                                     <li class="list-group-item">Unit : {{ $row->unit }} Unit</li>
-                                    <li class="list-group-item">{{ $row->pesan }}</li>
+                                    <li class="list-group-item">ALamat : {{ $row->pesan }}</li>
                                     <li class="list-group-item">
                                         <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#detail{{ $row->id }}">Pesan</a>
@@ -62,6 +62,10 @@
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
+                                                            <div class="mb-2">
+                                                                <label for="">Nama</label>
+                                                                <input type="text" readonly required placeholder="Nama" value="{{ Auth::user()->name }}" class="form-control">
+                                                            </div>
                                                            <div class="mb-1">
                                                             <label for="">Lama Nyewa</label>
                                                             <select name="lama_nyewa" id="" class="form-control" required>

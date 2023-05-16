@@ -30,12 +30,12 @@
                             <tr>
                                 <th>No</th>
                                 <th>Gambar</th>
+                                <th>Nama Penyewa</th>
                                 <th>Nama Alat</th>
-                                <th>Jenis</th>
-                                <th>Satuan</th>
+                                <th>Luas Tanah</th>
                                 <th>Biaya</th>
                                 <th>Unit</th>
-                                <th>Expired</th>
+                                <th>Tanggal Sewa</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
