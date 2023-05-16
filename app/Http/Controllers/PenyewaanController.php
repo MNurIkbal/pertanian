@@ -103,12 +103,14 @@ class PenyewaanController extends Controller
             $nama_file = $file->getClientOriginalName();
             $file->move($tujuan_upload, $file->getClientOriginalName());
 
+            $rupiah = str_replace(".", "", $request->biaya);
+
             $nyewa = new PenyewaanModel();
             $nyewa->nama_nyewa = $request->nama_penyewa;
             $nyewa->jenis = $request->nama_alat;
             $nyewa->satuan = $request->tanah;
             $nyewa->expired = $request->expired;
-            $nyewa->biaya = $request->biaya;
+            $nyewa->biaya = $rupiah;
             $nyewa->pesan = $request->alamat;
             $nyewa->created_at = now();
             $nyewa->img = $nama_file;
@@ -214,7 +216,7 @@ class PenyewaanController extends Controller
         } else {
             $nama_file = $img_lama;
         }
-
+        $rupiah = str_replace(".", "", $request->biaya);
         try {
             //code...
             PenyewaanModel::where("id", $id)->update([
@@ -222,7 +224,7 @@ class PenyewaanController extends Controller
                 'jenis' =>  $request->jenis,
                 'satuan'    =>  $request->satuan,
                 'expired'   =>  $request->expired,
-                'biaya' =>  $request->biaya,
+                'biaya' =>  $rupiah,
                 'pesan' =>  $request->pesan,
                 'img'   =>  $nama_file,
                 'unit'  =>  $request->unit

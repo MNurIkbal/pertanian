@@ -48,8 +48,35 @@
                            <div class="modal-body">
                             <div class="mb-1">
                                 <label for="">Nominal</label>
-                                <input type="number" class="form-control" required placeholder="Nominal" name="nominal">
+                                <input type="text" class="form-control" required placeholder="Nominal" name="nominal" id="bayars">
                             </div>
+                            <script type="text/javascript">
+		
+                                var rupiah = document.getElementById('bayars');
+                                rupiah.addEventListener('keyup', function(e){
+                                    // tambahkan 'Rp.' pada saat form di ketik
+                                    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                                    rupiah.value = formatRupiah(this.value, 'Rp. ');
+                                });
+                         
+                                /* Fungsi formatRupiah */
+                                function formatRupiah(angka, prefix){
+                                    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                    split   		= number_string.split(','),
+                                    sisa     		= split[0].length % 3,
+                                    rupiah     		= split[0].substr(0, sisa),
+                                    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+                         
+                                    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                    if(ribuan){
+                                        separator = sisa ? '.' : '';
+                                        rupiah += separator + ribuan.join('.');
+                                    }
+                         
+                                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                                    return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                }
+                            </script>
                             <br>  
                             <div class="mb-1">
                                 <label for="">Bukti Foto</label>
@@ -111,8 +138,35 @@
                                                <div class="modal-body">
                                                 <div class="mb-1">
                                                     <label for="">Nominal</label>
-                                                    <input type="number" value="{{ $row->nominal }}" class="form-control" required placeholder="Nominal" name="nominal">
+                                                    <input type="text" value="{{ $row->nominal }}" class="form-control" required placeholder="Nominal" name="nominal" id="nominals">
                                                 </div>
+                                                <script type="text/javascript">
+		
+                                                    var rupiaht{{$row->id}} = document.getElementById('nominals');
+                                                    rupiaht{{$row->id}}.addEventListener('keyup', function(e){
+                                                        // tambahkan 'Rp.' pada saat form di ketik
+                                                        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                                                        rupiaht{{$row->id}}.value = formatRupiah{{$row->id}}(this.value, 'Rp. ');
+                                                    });
+                                             
+                                                    /* Fungsi formatRupiah */
+                                                    function formatRupiah{{$row->id}}(angka, prefix){
+                                                        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                                        split   		= number_string.split(','),
+                                                        sisa     		= split[0].length % 3,
+                                                        rupiaht{{$row->id}}     		= split[0].substr(0, sisa),
+                                                        ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+                                             
+                                                        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                                        if(ribuan){
+                                                            separator = sisa ? '.' : '';
+                                                            rupiaht{{$row->id}} += separator + ribuan.join('.');
+                                                        }
+                                             
+                                                        rupiaht{{$row->id}} = split[1] != undefined ? rupiaht{{$row->id}} + ',' + split[1] : rupiaht{{$row->id}};
+                                                        return prefix == undefined ? rupiaht{{$row->id}} : (rupiaht{{$row->id}} ? '' + rupiaht{{$row->id}} : '');
+                                                    }
+                                                </script>
                                                 <br>  
                                                 <div class="mb-1">
                                                     <label for="">Bukti Foto</label>

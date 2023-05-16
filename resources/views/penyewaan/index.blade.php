@@ -110,17 +110,44 @@
                                                     <h5>Biaya*</h5>
                                                 </label>
                                                 <div class="input-group">
-                                                    <input type="number"
+                                                    <input type="text"
                                                         class="form-control @error('biaya')
                                 is-invalid
                             @enderror"
-                                                        placeholder="Biaya" name="biaya" required />
+                                                        placeholder="Biaya" name="biaya" id="rupiah" required />
                                                 </div>
                                                 @error('biaya')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
                                         </div>
+                                        <script>
+                                            var rupiah = document.getElementById('rupiah');
+                                            
+                                            rupiah.addEventListener('keyup', function(e) {
+                                                // tambahkan 'Rp.' pada saat form di ketik
+                                                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                                                rupiah.value = formatRupiah(this.value, 'Rp. ');
+                                            });
+
+                                            /* Fungsi formatRupiah */
+                                            function formatRupiah(angka, prefix) {
+                                                var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                                    split = number_string.split(','),
+                                                    sisa = split[0].length % 3,
+                                                    rupiah = split[0].substr(0, sisa),
+                                                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                                                // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                                if (ribuan) {
+                                                    separator = sisa ? '.' : '';
+                                                    rupiah += separator + ribuan.join('.');
+                                                }
+
+                                                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                                                return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+                                            }
+                                        </script>
                                         <div class="col-md-6">
                                             <div class="mb-1">
                                                 <label for="" style="margin-bottom: 5px !important;">
@@ -212,23 +239,25 @@
                                         <td>{{ $row->unit }} Unit</td>
                                         <td>{{ date('d, F Y', strtotime($row->expired)) }}</td>
                                         <td>
-                                            <a href="{{ url("detail_penyewa/$row->id") }}" class="btn btn-sm btn-primary"><i
-                                                    class="fas fa-eye"></i></a>
+                                            <a href="{{ url("detail_penyewa/$row->id") }}"
+                                                class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
                                             <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#edit{{ $row->id }}"><i class="fas fa-pen"></i></a>
                                             <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#hapus{{ $row->id }}"><i class="fas fa-trash"></i></a>
+                                                data-bs-target="#hapus{{ $row->id }}"><i
+                                                    class="fas fa-trash"></i></a>
                                             <div class="modal fade" id="edit{{ $row->id }}" tabindex="-1"
                                                 aria-hidden="true">
                                                 <div class="modal-dialog  modal-lg" role="document">
-                                                    <form method="POST" enctype="multipart/form-data" class="modal-content"
-                                                        action="{{ url('edit_nyewa') }}">
-                                                        <input type="hidden" name="id" value="{{ $row->id }}">
+                                                    <form method="POST" enctype="multipart/form-data"
+                                                        class="modal-content" action="{{ url('edit_nyewa') }}">
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $row->id }}">
                                                         @csrf
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="modalFullTitle">Edit Alat</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="containers">
@@ -285,8 +314,8 @@
                                                                                     class="form-control @error('satuan')
                                                   is-invalid
                                               @enderror"
-                                                                                    placeholder="Luas Tanah" name="satuan"
-                                                                                    required />
+                                                                                    placeholder="Luas Tanah"
+                                                                                    name="satuan" required />
                                                                             </div>
                                                                             @error('satuan')
                                                                                 <small
@@ -320,12 +349,12 @@
                                                                                 <h5>Biaya*</h5>
                                                                             </label>
                                                                             <div class="input-group">
-                                                                                <input type="number"
+                                                                                <input type="text"
                                                                                     value="{{ $row->biaya }}"
                                                                                     class="form-control @error('biaya')
                                                   is-invalid
                                               @enderror"
-                                                                                    placeholder="Biaya" name="biaya"
+                                                                                    placeholder="Biaya" name="biaya" id="biaya{{ $row->id }}"
                                                                                     required />
                                                                             </div>
                                                                             @error('biaya')
@@ -334,6 +363,34 @@
                                                                             @enderror
                                                                         </div>
                                                                     </div>
+                                                                    <script>
+                                                                        var id = {{ $row->id}}
+                                                                        var rupiahs{{$row->id}}  = document.getElementById('biaya' + id);
+                                                                        
+                                                                        rupiahs{{ $row->id }}.addEventListener('keyup', function(e) {
+                                                                            // tambahkan 'Rp.' pada saat form di ketik
+                                                                            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                                                                            rupiahs{{$row->id}}.value = formatRupiahs{{$row->id}}(this.value, 'Rp. ');
+                                                                        });
+                            
+                                                                        /* Fungsi formatRupiah */
+                                                                        function formatRupiahs{{$row->id}}(angka, prefix) {
+                                                                            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                                                                                split = number_string.split(','),
+                                                                                sisa = split[0].length % 3,
+                                                                                rupiahs{{$row->id}} = split[0].substr(0, sisa),
+                                                                                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                            
+                                                                            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                                                                            if (ribuan) {
+                                                                                separator = sisa ? '.' : '';
+                                                                                rupiahs{{$row->id}} += separator + ribuan.join('.');
+                                                                            }
+                            
+                                                                            rupiahs{{$row->id}} = split[1] != undefined ? rupiahs{{$row->id}} + ',' + split[1] : rupiahs{{$row->id}};
+                                                                            return prefix == undefined ? rupiahs{{$row->id}} : (rupiahs{{$row->id}} ? '' + rupiahs{{$row->id}} : '');
+                                                                        }
+                                                                    </script>
                                                                     <div class="col-md-6">
                                                                         <div class="mb-1">
                                                                             <label for=""
@@ -407,14 +464,15 @@
                                             <div class="modal fade" id="hapus{{ $row->id }}" tabindex="-1"
                                                 aria-hidden="true">
                                                 <div class="modal-dialog  modal-lg" role="document">
-                                                    <form method="POST" enctype="multipart/form-data" class="modal-content"
-                                                        action="{{ url('edit_nyewa') }}">
-                                                        <input type="hidden" name="id" value="{{ $row->id }}">
+                                                    <form method="POST" enctype="multipart/form-data"
+                                                        class="modal-content" action="{{ url('edit_nyewa') }}">
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $row->id }}">
                                                         @csrf
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="modalFullTitle">Hapus Alat</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <h4>Apakah Anda Yakin Ingin Menghapus!</h4>

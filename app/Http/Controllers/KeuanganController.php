@@ -54,11 +54,23 @@ class KeuanganController extends Controller
         } else {
             $nama_file = $request->foto_lama;
         }
+
+        $rupiah = str_replace(".", "", $request->nominal);
+        $id = $request->id;
+            $result = NyewaModel::where("id",$id)->first();
+            $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
+    
+    
+            if($rupiah > $check->biaya) {
+                return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
+            } elseif($rupiah < $check->biaya) {
+                return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
+            }
         
         
         try {
             DB::table("pembayaran")->update([
-                'nominal'   =>  $request->nominal,
+                'nominal'   =>  $rupiah,
                 'img'   =>  $nama_file,
                 'pesan' =>  $request->pesan
             ]);
@@ -125,14 +137,16 @@ class KeuanganController extends Controller
             $result = NyewaModel::where("id",$id)->first();
             $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
     
-            if($request->nominal > $check->biaya) {
+            $rupiah = str_replace(".", "", $request->nominal);
+            if($rupiah > $check->biaya) {
                 return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
-            } elseif($request->nominal < $check->biaya) {
+            } elseif($rupiah < $check->biaya) {
                 return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
             }
+
             $bayar = new PembayaranModel();
             $bayar->user_id = $result->user_id;
-            $bayar->nominal = $request->nominal;
+            $bayar->nominal = $rupiah;
             $bayar->img = $nama_file;
             $bayar->created_at = now();
             $bayar->nyewa_id = $id;
