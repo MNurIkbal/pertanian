@@ -233,7 +233,8 @@
                                         <td>Rp. {{ number_format($row->biaya, 0) }}</td>
                                         <td>{{ $row->unit }} Unit</td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-warning" ><i class="fa-solid fa-money-bill"></i></a>
+                                            <a href="{{ url('detail_penyewa/' . $row->id) }}" class="btn btn-sm btn-info" ><i class="fas fa-clipboard"></i></a>
+                                            {{-- <a href="#" class="btn btn-sm btn-warning" ><i class="fa-solid fa-money-bill"></i></a> --}}
                                             <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#detail{{ $row->id }}"><i class="fas fa-eye"></i></a>
                                             <div class="modal fade" id="detail{{ $row->id }}" tabindex="-1" aria-hidden="true">

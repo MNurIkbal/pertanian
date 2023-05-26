@@ -24,6 +24,26 @@ class KeuanganController extends Controller
         ];
         return view("keuangan.index", $data);
     }
+    public function detal_pembayaran($id)
+    {
+        $results = NyewaModel::where("id",$id)->count();
+        if(!$results) {
+            return redirect()->to('penyewaan');
+        }
+        $check = NyewaModel::where("id",$id)->first();
+        $result = NyewaModel::where("id", $id)->first();
+        $data = [
+            'result'    =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->get(),
+            'id'    =>  $id,
+            'user_id'   =>  $result->user_id,
+            'hasil' =>  $result,
+            'ids'   =>  $result->penyewaan_id,
+            'main'  =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
+            'first' =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
+            'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count()
+        ];
+        return view("keuangan.pembayaran", $data);
+    }
 
     /**
      * Show the form for creating a new resource.

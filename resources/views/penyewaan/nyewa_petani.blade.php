@@ -60,7 +60,10 @@
                                                     class="badge badge-pill badge-success bg-success">Sudah Di ACC</span>
                                             @elseif($row->status == 'belum aktif')
                                                 <span
-                                                    class="badge badge-pill badge-success bg-danger">Belum Di ACC</span>
+                                                    class="badge badge-pill badge-success bg-warning">Belum Di ACC</span>
+                                            @elseif($row->status == 'tolak')
+                                                <span
+                                                    class="badge badge-pill badge-success bg-danger">Di Tolak</span>
                                             @endif
                                         </td>
                                         <td>{{ $row->unit_sewa }} Unit</td>
@@ -230,6 +233,13 @@
                                                                         </li>
                                                                     </div>
                                                                 </div>
+
+                                                                @if ($row->pesan_tolak)
+                                                                <li class="list-group-item">
+                                                                    Pesan Tolak :
+                                                                    {{$row->pesan_tolak}}
+                                                                </li>
+                                                               @endif
                                                             </ul>
                                                         </div>
                                                         <div class="modal-footer">

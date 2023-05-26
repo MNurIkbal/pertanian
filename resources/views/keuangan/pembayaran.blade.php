@@ -13,9 +13,9 @@
         <div class="card p-3">
             <h5 class="card-header">Pembayaran </h5>
             <div style="margin-left: 20px;">
-                <h5>Nama Penyewa : {{ $main->name }}</h5>
-                <h5>Nama Alat : {{ $first->nama_nyewa }}</h5>
-                <h5>Biaya : Rp. {{ number_format($first->biaya,0) }}</h5>
+                <h5>Nama Penyedia : {{ $main->nama_penyedia }}</h5>
+                <h5>Nama Alat : {{ $main->alat->nama_alat }}</h5>
+                <h5>Biaya : Rp. {{ number_format($main->alat->biaya,0) }}</h5>
             </div>
             <br>
             @if (session('success'))
@@ -96,9 +96,8 @@
                     </div>
                 </div>
                 @endif
-                @if ($check && $hasil->status == "aktif")
                 <a href="{{ url("selesai_bayar/$id/$user_id") }}" class="btn btn-success mb-4">Selesai</a>
-                @endif
+                
                 <br>
                 <div class="row">
                     @foreach ($result as $row)   

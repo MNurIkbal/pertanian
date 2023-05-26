@@ -126,7 +126,6 @@
                                     <th>No</th>
                                     <th>Gambar</th>
                                     <th>Nama Alat</th>
-                                    <th>Qty</th>
                                     <th>Dibuat</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -142,7 +141,6 @@
                                         </div>
                                     </td>
                                     <td>{{ $row->nama }}</td>
-                                    <td>{{ $row->qty }}</td>
                                     <td>{{ date("d, F Y",strtotime($row->created_at)) }}</td>
                                     <td>
                                         @if ($row->active == "1")

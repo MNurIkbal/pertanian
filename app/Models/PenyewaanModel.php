@@ -22,4 +22,9 @@ class PenyewaanModel extends Model
         'img',
         'unit'
     ];
+
+    public function alat()
+    {
+        return $this->belongsTo(AlatModel::class,'nama_alat');
+    }
 }

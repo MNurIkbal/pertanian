@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get("/hapus_nyewa_detail/{id}", [PenyewaanController::class, 'hapus_nyewa_detail']);
     Route::get("/hapus_nyewa/{id}", [PenyewaanController::class, 'destroy']);
     Route::get("/detail_penyewa/{id}", [PenyewaanController::class, 'detail_penyewa']);
-    Route::get("/tolak_approve/{id}", [PenyewaanController::class, 'tolak_approve']);
+    Route::post("/tolak_approve/{id}", [PenyewaanController::class, 'tolak_approve']);
     Route::get("/nyewa_petani", [PenyewaanController::class, 'nyewa_petani']);
     Route::get("/tambah_data_nyewa", [PenyewaanController::class, 'tambah_data_nyewa']);
     Route::post("/pesan_sekarang", [PenyewaanController::class, 'pesan_sekarang']);
@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get("/keuangan", [KeuanganController::class, 'index']);
     Route::post("/edit_bayar_sekarang", [KeuanganController::class, 'edit_bayar_sekarang']);
     Route::post("/bayar_sekarang", [KeuanganController::class, 'bayar_sekarang']);
+    Route::get("/detail_pembayaran/{id}", [KeuanganController::class, 'detal_pembayaran']);
     Route::get("/detail_penyewa_keuangan/{id}", [KeuanganController::class, 'detail_penyewa_keuangan']);
     Route::get("/bayar/{id}", [KeuanganController::class, 'bayar']);
     Route::get("/bayar_pekerjaan/{id}", [KeuanganController::class, 'bayar_pekerjaan']);

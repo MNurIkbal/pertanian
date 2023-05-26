@@ -22,7 +22,8 @@ class NyewaModel extends Model
         'no_hp',
         'unit_sewa',
         'lama_nyewa',
-        'jatuh_tempo'
+        'jatuh_tempo',
+        'pesan_tolak'
     ];
 
     public function penyewaan()

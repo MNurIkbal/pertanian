@@ -74,11 +74,15 @@ class PenyewaanController extends Controller
         }
     }
 
-    public function tolak_approve($id)
+    public function tolak_approve(Request $request, $id)
     {
         try {
 
-            NyewaModel::where("id", $id)->delete();
+            $pesan = $request->pesan;
+            NyewaModel::where("id", $id)->update([
+                'status'    =>  'tolak',
+                'pesan_tolak' =>  $pesan
+            ]);
 
             return redirect()->back()->with('success', "Data Berhasil Diupdate");
             //code...
