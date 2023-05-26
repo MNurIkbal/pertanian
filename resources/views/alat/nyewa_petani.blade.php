@@ -9,8 +9,6 @@
 @endsection
 
 @section('content')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css" />
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card p-3">
             <h5 class="card-header">Penyewaan Alat</h5>
@@ -29,7 +27,7 @@
                 <a class="btn btn-primary mb-3" href="{{ url('tambah_data_nyewa') }}">Tambah</a>
                 <div class="card-datatable text-nowrap">
                     <div class="table-responsive">
-                        <table class="datatables-ajax table-hover table table-bordered" id="myTable">
+                        <table class="datatables-ajax table-hover table table-bordered" id="tab">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -50,17 +48,17 @@
                                     @endphp
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $da->nama_penyedia }}</td>
-                                        <td>{{ $da->nama_alat }}</td>
+                                        <td>{{ $da->nama_nyewa }}</td>
+                                        <td>{{ $da->jenis }}</td>
                                         <td>Rp. {{ number_format($da->biaya, 0) }}</td>
                                         <td>{{ $row->lama_nyewa }} Hari</td>
                                         <td>
                                             @if ($row->status == 'aktif' || $row->status == 'selesai')
                                                 <span
-                                                    class="badge badge-pill badge-success bg-success">Sudah Di ACC</span>
+                                                    class="badge badge-pill badge-success bg-success">{{ $row->status }}</span>
                                             @elseif($row->status == 'belum aktif')
                                                 <span
-                                                    class="badge badge-pill badge-success bg-danger">Belum Di ACC</span>
+                                                    class="badge badge-pill badge-success bg-danger">{{ $row->status }}</span>
                                             @endif
                                         </td>
                                         <td>{{ $row->unit_sewa }} Unit</td>
@@ -72,28 +70,8 @@
                                                 <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#edit{{ $row->id }}"><i
                                                         class="fas fa-pen"></i></a>
-                                                <a href="#"
-                                                    class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delete{{ $row->id }}"><i class="fas fa-trash"></i></a>
-                                                    <div class="modal fade" id="delete{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg" role="document">
-                                                          <div class="modal-content">
-                                                            <div class="modal-header">
-                                                              <h5 class="modal-title" id="exampleModalLabel">Hapus Penyewaan Alat</h5>
-                                                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                              </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <h4>Apakah Anda Yakin Ingin Menghapus Data Ini?</h4>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                                                              <a href="{{ url("hapus_nyewa_detail/$row->id") }}" class="btn btn-danger">Iya</a>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
+                                                <a href="{{ url("hapus_nyewa_detail/$row->id") }}"
+                                                    class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     <div class="modal fade" id="edit{{ $row->id }}" tabindex="-1"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog  modal-lg" role="document">
@@ -176,7 +154,7 @@
                                                         <input type="hidden" name="id" value="{{ $row->id }}">
                                                         @csrf
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFullTitle">Detail Penyewaan Alat</h5>
+                                                            <h5 class="modal-title" id="modalFullTitle">Detail Alat</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
@@ -191,31 +169,28 @@
                                                                 <div class="row mt-4">
                                                                     <div class="col-md-6">
                                                                         <li class="list-group-item">Nama Penyewa :
-                                                                            {{ $da->nama_penyedia }}</li>
+                                                                            {{ $da->nama_nyewa }}</li>
                                                                         <li class="list-group-item">Nama Alat :
-                                                                            {{ $da->nama_alat }}</li>
+                                                                            {{ $da->jenis }}</li>
                                                                         <li class="list-group-item">Luas Tanah:
-                                                                            {{ $da->luas_tanah }}</li>
+                                                                            {{ $da->satuan }}</li>
+                                                                        <li class="list-group-item">Tanggal Sewa :
+                                                                            {{ date('d, F Y', strtotime($da->expired)) }}
+                                                                        </li>
                                                                         <li class="list-group-item">Biaya :
                                                                             Rp.{{ number_format($da->biaya, 0) }}</li>
-                                                                            <li class="list-group-item">Unit Sewa :
-                                                                                {{ $row->unit_sewa }}</li>
                                                                         <li class="list-group-item">Jatuh Tempo :
                                                                             {{ date('d, F Y', strtotime($row->jatuh_tempo)) }}
                                                                         </li>
                                                                     </div>
                                                                     <div class="col-md-6">
+                                                                        <li class="list-group-item">Unit Sewa :
+                                                                            {{ $row->unit_sewa }}</li>
                                                                         <li class="list-group-item">Status :
-                                                                            @if ($row->status == 'aktif' || $row->status == 'selesai')
-                                                <span
-                                                    class="badge badge-pill badge-success bg-success">Sudah Di ACC</span>
-                                            @elseif($row->status == 'belum aktif')
-                                                <span
-                                                    class="badge badge-pill badge-success bg-danger">Belum Di ACC</span>
-                                            @endif
+                                                                            {{ $row->status }}
                                                                         </li>
                                                                         <li class="list-group-item">Lama Nyewa :
-                                                                            {{ $row->lama_nyewa }} Hari</li>
+                                                                            Rp.{{ $row->lama_nyewa }}</li>
                                                                         <li class="list-group-item">Dibuat :
                                                                             {{ $row->created_at }}
                                                                         </li>
@@ -235,6 +210,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-label-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
+                                                            {{-- <a href="{{ url("hapus_nyewa/$row->id") }}" class="btn btn-primary">Hapus</a> --}}
                                                         </div>
                                                     </form>
                                                 </div>
@@ -248,12 +224,7 @@
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-        <script src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
         <script>
-            $(document).ready(function() {
-                $('#myTable').DataTable();
-            });
+            $("#.tab").DataTables();
         </script>
     @endsection

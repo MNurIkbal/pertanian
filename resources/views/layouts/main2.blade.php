@@ -63,6 +63,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('./asset-dashboard/js/config.js') }}"></script>
+    
     @yield('css')
   </head>
 
@@ -112,7 +113,7 @@
 
     <!-- Core JS -->
     <!-- build:.asset-dashboard/vendor/js/core.js -->
-    <script src="{{ asset('./asset-dashboard/vendor/libs/jquery/jquery.js') }}"></script>
+
     <script src="{{ asset('./asset-dashboard/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('./asset-dashboard/vendor/js/bootstrap.js') }} "></script>
     <script src="{{ asset('./asset-dashboard/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
@@ -132,5 +133,6 @@
 <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/js/tables-datatables-advanced.js"></script>
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    @yield('script')
   </body>
 </html>

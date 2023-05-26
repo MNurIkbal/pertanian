@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlatModel;
 use App\Models\NyewaModel;
 use App\Models\PenyewaanModel;
 use App\Models\User;
@@ -18,6 +19,7 @@ class PenyewaanController extends Controller
     {
         $data = [
             'result'    =>  PenyewaanModel::all(),
+            'alat'  =>  AlatModel::where("active","1")->get()
         ];
         return view("penyewaan.index", $data);
     }
@@ -106,9 +108,9 @@ class PenyewaanController extends Controller
             $rupiah = str_replace(".", "", $request->biaya);
 
             $nyewa = new PenyewaanModel();
-            $nyewa->nama_nyewa = $request->nama_penyewa;
-            $nyewa->jenis = $request->nama_alat;
-            $nyewa->satuan = $request->tanah;
+            $nyewa->nama_penyedia = $request->nama_penyedia;
+            $nyewa->nama_alat = $request->nama_alat;
+            $nyewa->luas_tanah = $request->tanah;
             $nyewa->expired = $request->expired;
             $nyewa->biaya = $rupiah;
             $nyewa->pesan = $request->alamat;
@@ -160,7 +162,8 @@ class PenyewaanController extends Controller
 
         try {
             $today = date('Y-m-d'); // Tanggal hari ini
-            $nextMonth = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+            $nextMonth = date('Y-m-d', strtotime("+$lama_nyewa day", strtotime($today)));
+            
 
             $nyewa = new NyewaModel();
             $nyewa->penyewaan_id = $id;
@@ -220,9 +223,9 @@ class PenyewaanController extends Controller
         try {
             //code...
             PenyewaanModel::where("id", $id)->update([
-                'nama_nyewa'    =>  $request->nama_alat,
-                'jenis' =>  $request->jenis,
-                'satuan'    =>  $request->satuan,
+                'nama_penyedia'    =>  $request->nama_penyedia,
+                'nama_alat' =>  $request->nama_alat,
+                'luas_tanah'    =>  $request->luas_tanah,
                 'expired'   =>  $request->expired,
                 'biaya' =>  $rupiah,
                 'pesan' =>  $request->pesan,
@@ -263,13 +266,19 @@ class PenyewaanController extends Controller
     public function edit_pesan_sekarang(Request $request)
     {
         $id = $request->id;
+       
 
         try {
+            $today = date('Y-m-d'); // Tanggal hari ini
+            $lama_nyew = $request->lama_nyewa;
+            $nextMonth = date('Y-m-d', strtotime("+$lama_nyew day", strtotime($today)));
+            // dd($nextMonth);
             NyewaModel::where("id",$id)->update([
                 'alamat'    =>  $request->alamat,
                 'no_hp' =>  $request->no_hp,
                 'unit_sewa' =>  $request->unit_sewa,
-                'lama_nyewa'    =>  $request->lama_nyewa
+                'lama_nyewa'    =>  $lama_nyew,
+                'jatuh_tempo'   =>  $nextMonth
             ]);
 
             return redirect()->back()->with('success','Data Berhasil Diupdate');

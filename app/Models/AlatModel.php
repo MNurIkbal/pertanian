@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PenyewaanModel extends Model
+class AlatModel extends Model
 {
     use HasFactory;
-    protected $table = 'penyewaan';
+    protected $table = 'alat';
     protected $primaryKey = 'id';
     public $timestamps = false;
     protected $fillable = [
-        'nama_penyedia',
-        'nama_alat',
-        'luas_tanah',
-        'expired',
-        'biaya',
-        'pesan',
+        'nama',
+        'active',
         'created_at',
-        'img',
-        'unit'
+        'kode',
+        'img'
     ];
 }

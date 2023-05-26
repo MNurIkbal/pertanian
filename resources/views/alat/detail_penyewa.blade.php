@@ -12,8 +12,8 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card p-3">
             <h5 class="card-header">Detail Penyewaan Alat</h5>
-            <h5 style="margin-left: 20px;">Nama Penyedia : {{ $hasil->nama_penyedia }}</h5>
-            <h5 style="margin-left: 20px;">Nama Alat: {{ $hasil->nama_alat }}</h5>
+            <h5 style="margin-left: 20px;">Nama Penyewa : {{ $hasil->nama_nyewa }}</h5>
+            <h5 style="margin-left: 20px;">Nama Alat: {{ $hasil->jenis }}</h5>
             <h5 style="margin-left: 20px;">Biaya : Rp. {{ number_format($hasil->biaya,0) }}</h5>
             <br>
             @if (session('success'))

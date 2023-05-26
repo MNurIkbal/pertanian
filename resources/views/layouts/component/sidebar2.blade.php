@@ -81,13 +81,30 @@
           <div data-i18n="Analytics">Diskusi</div>
         </a>
       </li>
+      <li class="menu-item @yield('informasi')">
+        <a href="{{ route('informasi.index') }}" class="menu-link">
+          <i class="menu-icon tf-icons bx bxs-news"></i>
+          <div data-i18n="Analytics">Informasi</div>
+        </a>
+      </li>
       @if (session('role') == 1)
+      <li class="menu-item @yield('manajemen-user')">
+        <a href="{{ route('manajemen-user.index') }}" class="menu-link">
+          <i class="menu-icon tf-icons bx bxs-user-rectangle"></i>
+          <div data-i18n="Analytics">Manajemen User</div>
+        </a>
+      </li>
       <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons fas fa-book"></i>
           <div data-i18n="Authentications">Transaksi</div>
         </a>
         <ul class="menu-sub">
+          <li class="menu-item @yield('alat')">
+            <a href="{{ route('alat.index') }}" class="menu-link">
+              <div data-i18n="Basic">Alat</div>
+            </a>
+          </li>
           <li class="menu-item @yield('penyewaan')">
             <a href="{{ route('penyewaan.index') }}" class="menu-link">
               <div data-i18n="Basic">Penyewaan</div>
@@ -98,6 +115,7 @@
               <div data-i18n="Basic">Keuangan</div>
             </a>
           </li>
+          
         </ul>
       </li>
       @else
@@ -120,5 +138,11 @@
         </ul>
       </li>
       @endif
+      <li class="menu-item @yield('profile')">
+        <a href="{{ route('profile.index') }}" class="menu-link">
+          <i class="menu-icon tf-icons bx bxs-user"></i>
+          <div data-i18n="Analytics">Profile</div>
+        </a>
+      </li>
     </ul>
   </aside>

@@ -40,10 +40,10 @@
                                             <img src="{{ asset("assets/img/" . $row->img) }}" style="width:250px;height:auto" class="img-thumbnail" alt="">
                                         </div>
                                     </li>
-                                    <li class="list-group-item">Nama Penyedia : {{ $row->nama_penyedia }}</li>
-                                    <li class="list-group-item">Nama Alat : {{ $row->nama_alat }}</li>
-                                    <li class="list-group-item">Luas Tanah : {{ $row->luas_tanah }}</li>
-                                    <li class="list-group-item">Biaya : Rp. {{ number_format($row->biaya,0) }} </li>
+                                    <li class="list-group-item">Nama Alat : {{ $row->jenis }}</li>
+                                    <li class="list-group-item">Luas Tanah : {{ $row->satuan }}</li>
+                                    <li class="list-group-item">Biaya : Rp. {{ number_format($row->biaya,0) }} Perbulan</li>
+                                    <li class="list-group-item">Tanggal Sewa    : {{ date("d, F Y",strtotime($row->expired)) }}</li>
                                     <li class="list-group-item">Unit : {{ $row->unit }} Unit</li>
                                     <li class="list-group-item">ALamat : {{ $row->pesan }}</li>
                                     <li class="list-group-item">
