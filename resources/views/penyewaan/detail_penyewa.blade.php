@@ -63,7 +63,7 @@
                                         <td>{{ $row->alamat }}</td>
                                         <td>{{ date('d, F Y', strtotime($row->created_at)) }}</td>
                                         <td>
-                                            @if ($row->status == "aktif")
+                                            @if ($row->status == "aktif" || $row->status == "selesai")
                                                 
                                             <a href="{{ url('detail_pembayaran/' . $row->id)  }}" class="btn btn-sm btn-primary   "><i class="fas fa-eye"></i></a>
                                             @elseif($row->status == "belum aktif")

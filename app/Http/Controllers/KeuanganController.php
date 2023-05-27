@@ -38,7 +38,7 @@ class KeuanganController extends Controller
             'user_id'   =>  $result->user_id,
             'hasil' =>  $result,
             'ids'   =>  $result->penyewaan_id,
-            'main'  =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
+            'main'  =>  PenyewaanModel::where("id",$result->penyewaan_id)->first()  ,
             'first' =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
             'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count()
         ];

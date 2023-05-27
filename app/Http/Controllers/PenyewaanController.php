@@ -42,7 +42,7 @@ class PenyewaanController extends Controller
     {
         $data = [
             'hasil' =>  PenyewaanModel::where('id',$id)->first(),
-            'result'    => NyewaModel::where("penyewaan_id", $id)->where('status','belum aktif')->orwhere('status','aktif')->get()
+            'result'    => NyewaModel::where("penyewaan_id", $id)->where('status','belum aktif')->orwhere('status','aktif')->orWhere('status','selesai')->get()
         ];
         return view('penyewaan.detail_penyewa', $data);
     }

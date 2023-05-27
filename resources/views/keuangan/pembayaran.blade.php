@@ -14,8 +14,8 @@
             <h5 class="card-header">Pembayaran </h5>
             <div style="margin-left: 20px;">
                 <h5>Nama Penyedia : {{ $main->nama_penyedia }}</h5>
-                <h5>Nama Alat : {{ $main->alat->nama_alat }}</h5>
-                <h5>Biaya : Rp. {{ number_format($main->alat->biaya,0) }}</h5>
+                <h5>Nama Alat : {{ $main->nama_alat }}</h5>
+                <h5>Biaya : Rp. {{ number_format($main->biaya,0) }}</h5>
             </div>
             <br>
             @if (session('success'))
@@ -29,7 +29,7 @@
                 </div>
             @endif
             <div>
-                <a href="{{ url("detail_penyewa_keuangan/$ids") }}" class="btn btn-warning mb-4">Kembali</a>
+                <a href="{{ url("detail_penyewa/$ids") }}" class="btn btn-warning mb-4">Kembali</a>
                 @if ($hasil->status == "aktif")
                 <a href="#" class="btn btn-primary mb-4"  data-bs-toggle="modal"
                 data-bs-target="#edit">Tambah</a>
@@ -96,7 +96,9 @@
                     </div>
                 </div>
                 @endif
+                @if ($check && $hasil->status == "aktif")
                 <a href="{{ url("selesai_bayar/$id/$user_id") }}" class="btn btn-success mb-4">Selesai</a>
+                @endif
                 
                 <br>
                 <div class="row">
