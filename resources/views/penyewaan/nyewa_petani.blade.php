@@ -214,7 +214,10 @@
                                                     class="badge badge-pill badge-success bg-success">Sudah Di ACC</span>
                                             @elseif($row->status == 'belum aktif')
                                                 <span
-                                                    class="badge badge-pill badge-success bg-danger">Belum Di ACC</span>
+                                                    class="badge badge-pill badge-success bg-warning">Belum Di ACC</span>
+                                            @elseif($row->status == 'tolak')
+                                                <span
+                                                    class="badge badge-pill badge-success bg-danger">Tolak</span>
                                             @endif
                                                                         </li>
                                                                         <li class="list-group-item">Lama Nyewa :
