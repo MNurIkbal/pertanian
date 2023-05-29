@@ -19,4 +19,9 @@ class PembayaranModel extends Model
         'nyewa_id',
         'pesan'
     ];
+
+    public function nyewa()
+    {
+        return $this->belongsTo(NyewaModel::class,'nyewa_id');
+    }
 }

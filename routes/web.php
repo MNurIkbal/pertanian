@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::get("/detail_pembayaran/{id}", [KeuanganController::class, 'detal_pembayaran']);
     Route::get("/detail_penyewa_keuangan/{id}", [KeuanganController::class, 'detail_penyewa_keuangan']);
     Route::get("/bayar/{id}", [KeuanganController::class, 'bayar']);
+    Route::get("/print/{id}", [KeuanganController::class, 'print']);
     Route::get("/bayar_pekerjaan/{id}", [KeuanganController::class, 'bayar_pekerjaan']);
     Route::get("/hapus_bayar/{id}", [KeuanganController::class, 'hapus_bayar']);
     Route::get("/selesai_bayar/{id}/{user_id}", [KeuanganController::class, 'selesai_bayar']);

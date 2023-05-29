@@ -56,7 +56,17 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $users->name }}</td>
                                         <td>{{ $row->no_hp }}</td>
-                                        <td>{{ $row->status }}</td>
+                                        <td>
+                                            @if ($row->status == "belum aktif")
+                                                <span class="badge badge-pill badge-warning bg-warning">Belum Di ACC</span>
+                                                @elseif ($row->status == "aktif")
+                                                <span class="badge badge-pill badge-warning bg-success">Sudah Di ACC</span>
+                                                @elseif ($row->status == "selesai")
+                                                <span class="badge badge-pill badge-warning bg-primary">Selesai</span>
+                                                @elseif ($row->status == "tolak")
+                                                <span class="badge badge-pill badge-warning bg-danger">Tolak</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $row->unit_sewa }} Unit</td>
                                         <td>{{ $row->lama_nyewa }} Hari</td>
                                         <td>{{ date('d, F Y', strtotime($row->jatuh_tempo)) }}</td>
@@ -65,7 +75,7 @@
                                         <td>
                                             @if ($row->status == "aktif" || $row->status == "selesai")
                                                 
-                                            <a href="{{ url('detail_pembayaran/' . $row->id)  }}" class="btn btn-sm btn-primary   "><i class="fas fa-eye"></i></a>
+                                            <a href="{{ url('detail_pembayaran/' . $row->id)  }}" class="btn btn-sm btn-primary   "><i class="fas fa-clipboard"></i></a>
                                             @elseif($row->status == "belum aktif")
                                             <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#tolak{{ $row->id }}"><i class="fas fa-times"></i></a>

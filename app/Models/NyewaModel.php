@@ -30,4 +30,9 @@ class NyewaModel extends Model
     {
         return $this->hasMany(PenyewaanModel::class);
     }
+
+    public function penyewa()
+    {
+        return $this->belongsTo(PenyewaanModel::class,'penyewaan_id');
+    }
 }

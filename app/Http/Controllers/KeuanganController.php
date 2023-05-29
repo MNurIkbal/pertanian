@@ -55,7 +55,7 @@ class KeuanganController extends Controller
 
         $role = session('role');
         $data = [
-            'result'    => NyewaModel::where("penyewaan_id", $id)->where('status','aktif')->orwhere('status','selesai')->get(),
+            'result'    => NyewaModel::where("penyewaan_id", $id)->where('status','selesai')->get(),
             'first' =>  PenyewaanModel::where('id',$id)->first(),
             'role'  =>  $role,
         ];
@@ -132,10 +132,26 @@ class KeuanganController extends Controller
             'ids'   =>  $result->penyewaan_id,
             'main'  =>  User::where("id",$result->user_id)->first(),
             'first' =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
-            'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count()
+            'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count(),
         ];
 
-        return view('keuangan.pembayaran', $data);
+        return view('keuangan.laporan', $data);
+    }
+    public function print($id)
+    {
+        $result = NyewaModel::where("id", $id)->first();
+        $data = [
+            'result'    =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->get(),
+            'id'    =>  $id,
+            'user_id'   =>  $result->user_id,
+            'hasil' =>  $result,
+            'ids'   =>  $result->penyewaan_id,
+            'main'  =>  User::where("id",$result->user_id)->first(),
+            'first' =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
+            'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count(),
+        ];
+
+        return view('keuangan.print', $data);
     }
 
     /**
@@ -174,7 +190,8 @@ class KeuanganController extends Controller
             $bayar->save();
 
             $today =$result->jatuh_tempo; // Tanggal hari ini
-            $nextMonth = date('Y-m-d', strtotime('+1 month', strtotime($today)));
+            $lama = $result->lama_nyewa;
+            $nextMonth = date('Y-m-d', strtotime("+$lama day", strtotime($today)));
             NyewaModel::where("id",$id)->update([
                 'jatuh_tempo'   => $nextMonth
             ]);
