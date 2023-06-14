@@ -217,7 +217,6 @@
                                     <th>No</th>
                                     <th>Nama Penyedia</th>
                                     <th>Nama Alat</th>
-                                    <th>Luas Tanah</th>
                                     <th>Biaya</th>
                                     <th>Unit</th>
                                     <th>Status</th>
@@ -230,7 +229,6 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->nama_penyedia }}</td>
                                         <td>{{ $row->alat->nama }}</td>
-                                        <td>{{ $row->luas_tanah }}</td>
                                         <td>Rp. {{ number_format($row->biaya, 0) }}</td>
                                         <td>{{ $row->unit }} Unit</td>
                                         <td>

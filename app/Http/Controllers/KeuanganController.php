@@ -64,6 +64,7 @@ class KeuanganController extends Controller
         ->join('penyewaan', 'penyewaan.id', '=', 'nyewa.penyewaan_id')
         ->select(DB::raw('SUM(pembayaran.nominal) as total_nominal'))
         ->where('penyewaan.id', $id)
+        ->where('nyewa.status','selesai')
         ->first();
 
         
@@ -80,36 +81,10 @@ class KeuanganController extends Controller
     public function edit_bayar_sekarang(Request $request)
     {
         $id = $request->id;
-        
-        $tujuan_upload = 'assets/img/';
-        $file = $request->file("foto");
-        if(isset($file)) {
-            $nama_file = $file->getClientOriginalName();
-            $file->move($tujuan_upload, $file->getClientOriginalName());
-        } else {
-            $nama_file = $request->foto_lama;
-        }
-
-        $rupiah = str_replace(".", "", $request->nominal);
-        $id = $request->id;
-            $result = NyewaModel::where("id",$id)->first();
-            $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
-    
-    
-            if($rupiah > $check->biaya) {
-                return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
-            } elseif($rupiah < $check->biaya) {
-                return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
-            }
-        
-        
         try {
-            DB::table("pembayaran")->update([
-                'nominal'   =>  $rupiah,
-                'img'   =>  $nama_file,
+            DB::table("pembayaran")->where('id',$id)->update([
                 'pesan' =>  $request->pesan
             ]);
-    
             
             return redirect()->back()->with('success','Data Berhasil Diupdate');
         } catch (\Throwable $th) {
@@ -179,10 +154,7 @@ class KeuanganController extends Controller
     {
         try {
             //code...
-            $tujuan_upload = 'assets/img/';
-            $file = $request->file("foto");
-            $nama_file = $file->getClientOriginalName();
-            $file->move($tujuan_upload, $file->getClientOriginalName());
+            
     
             $id = $request->id;
             $result = NyewaModel::where("id",$id)->first();
@@ -198,14 +170,14 @@ class KeuanganController extends Controller
             $bayar = new PembayaranModel();
             $bayar->user_id = $result->user_id;
             $bayar->nominal = $rupiah;
-            $bayar->img = $nama_file;
+            $bayar->img = 'default.png';
             $bayar->created_at = now();
             $bayar->nyewa_id = $id;
             $bayar->pesan = $request->pesan;
             $bayar->save();
 
-            $today =$result->jatuh_tempo; // Tanggal hari ini
-            $lama = $result->lama_nyewa;
+            // $today =$result->jatuh_tempo; // Tanggal hari ini
+            // $lama = $result->lama_nyewa;
             // $nextMonth = date('Y-m-d', strtotime("+$lama day", strtotime($today)));
             // NyewaModel::where("id",$id)->update([
             //     'jatuh_tempo'   => $nextMonth
