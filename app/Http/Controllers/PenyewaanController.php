@@ -33,16 +33,23 @@ class PenyewaanController extends Controller
     {
 
         $data = [
-            'result'    =>  PenyewaanModel::all(),
+            'result'    =>  PenyewaanModel::orderby('id','desc')->get(),
         ];
         return view('penyewaan.tambah_nyewa', $data);
     }
 
     public function detail_penyewa($id)
     {
+        $result =  PenyewaanModel::where('id',$id)->first();
+        if(!$result) {
+            return redirect()->back();
+        }
+        PenyewaanModel::where("id",$id)->update([
+            'status_as' =>  null
+        ]);
         $data = [
             'hasil' =>  PenyewaanModel::where('id',$id)->first(),
-            'result'    => NyewaModel::where("penyewaan_id", $id)->get()
+            'result'    => NyewaModel::where("penyewaan_id", $id)->orderby('id','desc')->get()
         ];
         return view('penyewaan.detail_penyewa', $data);
     }
@@ -138,7 +145,7 @@ class PenyewaanController extends Controller
     {
         $id = session('id');
         $data = [
-            'result'    =>  NyewaModel::where('user_id', $id)->get()
+            'result'    =>  NyewaModel::where('user_id', $id)->orderby('id','desc')->get()
         ];
 
         return view("penyewaan.nyewa_petani", $data);
@@ -183,6 +190,11 @@ class PenyewaanController extends Controller
             $nyewa->jatuh_tempo = $nextMonth;
             $nyewa->save();
 
+            if($result->status != "Ada Ajuan") {
+                PenyewaanModel::where("id",$id)->update([
+                    'status_as'    =>  'Ada Ajuan'
+                ]);
+            }
 
             return redirect()->to('nyewa_petani')->with('success', "Data Berhasil Di Tambahkan");
             //code...

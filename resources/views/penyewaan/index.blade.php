@@ -234,7 +234,11 @@
                                         <td>Rp. {{ number_format($row->biaya, 0) }}</td>
                                         <td>{{ $row->unit }} Unit</td>
                                         <td>
-                                            <span class="badge badge-pill bg-success">Ada Ajuan</span>
+                                            @if ($row->status_as == "Ada Ajuan")
+                                            <span class="badge badge-pill bg-success">{{ $row->status_as }}</span>
+                                            @else
+                                            <span class="badge badge-pill bg-danger">Tidak Ada Ajuan</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ url('detail_penyewa/' . $row->id) }}" class="btn btn-sm btn-info" ><i class="fas fa-clipboard"></i></a>

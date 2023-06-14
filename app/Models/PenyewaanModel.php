@@ -20,7 +20,8 @@ class PenyewaanModel extends Model
         'pesan',
         'created_at',
         'img',
-        'unit'
+        'unit',
+        'status_as'
     ];
 
     public function alat()
