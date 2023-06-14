@@ -51,7 +51,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $da->nama_penyedia }}</td>
-                                        <td>{{ $da->nama_alat }}</td>
+                                        <td>{{ $da->alat->nama }}</td>
                                         <td>Rp. {{ number_format($da->biaya, 0) }}</td>
                                         <td>{{ $row->lama_nyewa }} Hari</td>
                                         <td>
@@ -196,7 +196,7 @@
                                                                         <li class="list-group-item">Nama Penyewa :
                                                                             {{ $da->nama_penyedia }}</li>
                                                                         <li class="list-group-item">Nama Alat :
-                                                                            {{ $da->nama_alat }}</li>
+                                                                            {{ $da->alat->nama }}</li>
                                                                         <li class="list-group-item">Luas Tanah:
                                                                             {{ $da->luas_tanah }}</li>
                                                                         <li class="list-group-item">Biaya :

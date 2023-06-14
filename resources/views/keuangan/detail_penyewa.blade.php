@@ -15,7 +15,7 @@
             <div>
                 <h5 class="card-header">Detail Keuangan </h5>
             <h5 style="margin-left: 20px">Nama Penyewa : {{ $first->nama_penyedia }}</h5>
-            <h5 style="margin-left: 20px">Nama ALat : {{ $first->nama_alat }}</h5>
+            <h5 style="margin-left: 20px">Nama ALat : {{ $first->alat->nama }}</h5>
             <h5 style="margin-left: 20px">Biaya : Rp.{{ number_format($first->biaya,0) }}</h5>
             </div>
             <br>

@@ -14,7 +14,7 @@
             <h5 class="card-header">Pembayaran </h5>
             <div style="margin-left: 20px;">
                 <h5>Nama Penyedia : {{ $main->nama_penyedia }}</h5>
-                <h5>Nama Alat : {{ $main->nama_alat }}</h5>
+                <h5>Nama Alat : {{ $main->alat->nama }}</h5>
                 <h5>Biaya : Rp. {{ number_format($main->biaya,0) }}</h5>
             </div>
             <br>
@@ -106,7 +106,7 @@
                     <div class="col-md-6 mt-4">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Angsuran {{ $loop->iteration }}</h5>
+                                <h5>Pembayaran {{ $loop->iteration }}</h5>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group">

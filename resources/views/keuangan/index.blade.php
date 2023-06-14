@@ -45,7 +45,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->nama_penyedia }}</td>
-                                        <td>{{ $row->nama_alat }}</td>
+                                        <td>{{ $row->alat->nama }}</td>
                                         <td>{{ $row->luas_tanah }}</td>
                                         <td>Rp. {{ number_format($row->biaya, 0) }}</td>
                                         <td>{{ $row->unit }} Unit</td>
