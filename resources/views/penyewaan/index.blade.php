@@ -220,6 +220,7 @@
                                     <th>Luas Tanah</th>
                                     <th>Biaya</th>
                                     <th>Unit</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -232,6 +233,9 @@
                                         <td>{{ $row->luas_tanah }}</td>
                                         <td>Rp. {{ number_format($row->biaya, 0) }}</td>
                                         <td>{{ $row->unit }} Unit</td>
+                                        <td>
+                                            <span class="badge badge-pill bg-success">Ada Ajuan</span>
+                                        </td>
                                         <td>
                                             <a href="{{ url('detail_penyewa/' . $row->id) }}" class="btn btn-sm btn-info" ><i class="fas fa-clipboard"></i></a>
                                             {{-- <a href="#" class="btn btn-sm btn-warning" ><i class="fa-solid fa-money-bill"></i></a> --}}

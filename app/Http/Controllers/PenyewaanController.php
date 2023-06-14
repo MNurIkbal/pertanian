@@ -18,7 +18,7 @@ class PenyewaanController extends Controller
     public function index()
     {
         $data = [
-            'result'    =>  PenyewaanModel::all(),
+            'result'    =>  PenyewaanModel::orderby('id','desc')->get(),
             'alat'  =>  AlatModel::where("active","1")->get()
         ];
         return view("penyewaan.index", $data);
