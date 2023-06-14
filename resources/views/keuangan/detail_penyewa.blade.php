@@ -25,12 +25,48 @@
                 </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-success">
+                <div class="alert alert-danger">
                     <p>{{ session('error') }}</p>
                 </div>
             @endif
             <div>
                 <a href="{{ url("keuangan") }}" class="btn btn-warning mb-4">Kembali</a>
+                <a href="#" class="btn btn-primary mb-4" data-bs-toggle="modal"
+                data-bs-target="#edit">Print</a>
+                <div class="modal fade" id="edit" tabindex="-1"
+                    aria-hidden="true">
+                    <div class="modal-dialog  modal-lg" role="document">
+                        <form method="POST" enctype="multipart/form-data" class="modal-content"
+                            action="{{ url('print_laporan') }}">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalFullTitle">Print Laporan</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <input type="hidden" name="id" value="{{ $id }}">
+                           <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="">Tanggal Mulai</label>
+                                        <input type="date" name="start" value="" class="form-control" required autofocus>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="">Tanggal Akhir</label>
+                                        <input type="date" name="end" value="" class="form-control" required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="card-datatable text-nowrap">
                     <div class="table-responsive" style="overflow-x: scroll !important">
                         <table class="datatables-ajax table table-bordered" id="myTable">

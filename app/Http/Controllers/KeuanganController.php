@@ -24,6 +24,34 @@ class KeuanganController extends Controller
         ];
         return view("keuangan.index", $data);
     }
+
+    public function print_laporan(Request $request) {
+        $id = $request->id;
+        $start = $request->start;
+        $end = $request->end;
+
+        if($end < $start) {
+            return redirect()->back()->with('error','Input Tidak Valid');
+        }
+
+        try {
+            //code...
+            $result = NyewaModel::where("id",$id)->whereBetween('created_at',[$start,$end])->count();
+            if(!$result) {
+                return redirect()->back()->with('error','Data Tidak Ditemukan');
+            }
+
+            $data = [
+                'result'    =>  $result,
+            ];
+            return view('keuangan.print',$data);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error','Data Tidak Ditemukan');
+            //throw $th;
+        }
+
+    }
+
     public function detal_pembayaran($id)
     {
         $results = NyewaModel::where("id",$id)->count();
@@ -76,6 +104,7 @@ class KeuanganController extends Controller
             'first' =>  PenyewaanModel::where('id',$id)->first(),
             'role'  =>  $role,
             'total' =>  $nyewa,
+            'id'    =>  $id
         ];
         return view('keuangan.detail_penyewa', $data);
     }

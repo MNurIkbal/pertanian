@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
 
     //keuangan
     Route::get("/keuangan", [KeuanganController::class, 'index']);
+    Route::post("/print_laporan", [KeuanganController::class, 'print_laporan']);
     Route::post("/edit_bayar_sekarang", [KeuanganController::class, 'edit_bayar_sekarang']);
     Route::post("/bayar_sekarang", [KeuanganController::class, 'bayar_sekarang']);
     Route::get("/detail_pembayaran/{id}", [KeuanganController::class, 'detal_pembayaran']);
