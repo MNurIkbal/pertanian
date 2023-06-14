@@ -40,9 +40,9 @@ class KeuanganController extends Controller
             if(!$result) {
                 return redirect()->back()->with('error','Data Tidak Ditemukan');
             }
-
+            $query = NyewaModel::where("id",$id)->whereBetween('created_at',[$start,$end])->get();
             $data = [
-                'result'    =>  $result,
+                'result'    =>  $query,
             ];
             return view('keuangan.print',$data);
         } catch (\Throwable $th) {

@@ -43,21 +43,13 @@
     <h4>LAPORAN KEUANGAN</h4>
     <div class="title">
         <div class="row_1">
-            <h4>Nama : {{ $main->name }}</h4>
-            <h4>No Hp : {{ $hasil->no_hp }}</h4>
-            <h4>Status : @if ($hasil->status == "tolak")
-                Tolak
-                @elseif($hasil->status == "selesai")
-                Selesai
-                @elseif($hasil->status == "belum aktif")
-                Belum Di Acc
-                @elseif ($hasil->status == "aktif")
-                Sudah Di Acc
-            @endif </h4>
+            <h4>Nama : ksd</h4>
+            <h4>No Hp : 0347983498</h4>
+            <h4>Status : Sudah </h4>
         </div>
         <div class="row_1"> 
             <h4>Dibuat : {{ date("d, F Y",strtotime(now())) }} </h4>
-            <h4>Alamat : {{ $hasil->alamat }}</h4>
+            <h4>Alamat : sjs</h4>
         </div>
     </div>
     <table>
@@ -75,21 +67,16 @@
         </thead>
         <tbody>
             @foreach ($result as $row)
-                @php
-                    $nyewar = App\Models\NyewaModel::where('id', $row->nyewa_id)->first();
-                    $penyedia = App\Models\PenyewaanModel::where('id', $nyewar->penyewaan_id)->first();
-                    $alat = App\Models\AlatModel::where('id', $penyedia->nama_alat)->first();
-                @endphp
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $penyedia->nama_penyedia }}</td>
-                    <td>{{ $penyedia->alat->nama }}</td>
-                    <td>{{ $nyewar->unit_sewa }} Unit</td>
-                    <td>Rp. {{ number_format($row->nominal, 0) }}</td>
-                    <td>{{ $nyewar->lama_nyewa }} Hari</td>
-                    <td>{{ date('d, F Y', strtotime($row->created_at)) }}</td>
-                    <td>{{ date('d, F Y', strtotime($nyewar->jatuh_tempo)) }}</td>
-                </tr>
+               <tr>
+                <th>No</th>
+                <th>Nama Penyedia</th>
+                <th>Nama Alat</th>
+                <th>Unit</th>
+                <th>Dibayar</th>
+                <th>Lama Nyewa</th>
+                <th>Dibuat</th>
+                <th>Jatuh Tempo</th>
+               </tr>
             @endforeach
         </tbody>
     </table>
