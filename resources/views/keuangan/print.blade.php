@@ -43,13 +43,14 @@
     <h4>LAPORAN KEUANGAN</h4>
     <div class="title">
         <div class="row_1">
-            <h4>Nama : ksd</h4>
-            <h4>No Hp : 0347983498</h4>
-            <h4>Status : Sudah </h4>
+            <h4>Nama Penyedia : {{ $penyewaan->nama_penyedia }}</h4>
+            <h4>Nama Alat : {{ $penyewaan->alat->nama }}</h4>
+            <h4>Biaya : Rp. {{ number_format($penyewaan->biaya) }} </h4>
         </div>
         <div class="row_1"> 
-            <h4>Dibuat : {{ date("d, F Y",strtotime(now())) }} </h4>
-            <h4>Alamat : sjs</h4>
+            <h4>Tanggal Mulai : {{ date("d, F Y",strtotime($mulai)) }} </h4>
+            <h4>Tanggal Akhir : {{ date("d, F Y",strtotime($akhir)) }} </h4>
+            <h4>Total Pendapata : Rp.   {{ number_format($hasil) }}</h4>
         </div>
     </div>
     <table>
@@ -59,7 +60,7 @@
                 <th>Nama Penyedia</th>
                 <th>Nama Alat</th>
                 <th>Unit</th>
-                <th>Dibayar</th>
+                
                 <th>Lama Nyewa</th>
                 <th>Dibuat</th>
                 <th>Jatuh Tempo</th>
@@ -67,12 +68,19 @@
         </thead>
         <tbody>
             @foreach ($result as $row)
+            @php
+                $hasil_nyewa = App\Models\PenyewaanModel::where('id',$row->penyewaan_id)->first();
+                $id_alat = $hasil_nyewa->nama_alat;
+                $nama_alat = App\Models\AlatModel::where('id',$id_alat)->first();
+                $pembayarans = App\Models\PembayaranModel::where("nyewa_id",$row->id)->first();
+                
+            @endphp
                <tr>
-                <th>No</th>
-                <th>Nama Penyedia</th>
-                <th>Nama Alat</th>
-                <th>Unit</th>
-                <th>Dibayar</th>
+                <th>{{ $loop->iteration }}</th>
+                <th>{{ $hasil_nyewa->nama_penyedia }}</th>
+                <th>{{ $nama_alat->nama }}</th>
+                <th>{{ $row->unit_sewa }} Unit</th>
+                
                 <th>Lama Nyewa</th>
                 <th>Dibuat</th>
                 <th>Jatuh Tempo</th>
@@ -80,9 +88,9 @@
             @endforeach
         </tbody>
     </table>
-    <script>
+    {{-- <script>
         window.print()
-    </script>
+    </script> --}}
 </body>
 
 </html>
