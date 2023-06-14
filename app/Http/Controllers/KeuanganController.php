@@ -54,10 +54,25 @@ class KeuanganController extends Controller
     {
 
         $role = session('role');
+        $main = PenyewaanModel::where('id',$id)->first();
+        if(!$main) {
+            return redirect()->back();
+        }
+
+        // $nyewa = PembayaranModel::join('nyewa','pembayaran.nyewa_id','=','nyewa.id')->join('penyewaan','penyewaan.id','=','nyewa.penyewaan_id')->first();
+        $nyewa = PembayaranModel::join('nyewa', 'pembayaran.nyewa_id', '=', 'nyewa.id')
+        ->join('penyewaan', 'penyewaan.id', '=', 'nyewa.penyewaan_id')
+        ->select(DB::raw('SUM(pembayaran.nominal) as total_nominal'))
+        ->where('penyewaan.id', $id)
+        ->first();
+
+        
+
         $data = [
             'result'    => NyewaModel::where("penyewaan_id", $id)->where('status','selesai')->get(),
             'first' =>  PenyewaanModel::where('id',$id)->first(),
             'role'  =>  $role,
+            'total' =>  $nyewa,
         ];
         return view('keuangan.detail_penyewa', $data);
     }
@@ -173,8 +188,7 @@ class KeuanganController extends Controller
             $result = NyewaModel::where("id",$id)->first();
             $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
     
-            $rupiah = str_replace(".", "", $request->nominal);
-            dd($rupiah);
+            $rupiah = str_replace(",", "", $request->nominal);
             if($rupiah > $check->biaya) {
                 return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
             } elseif($rupiah < $check->biaya) {
@@ -192,10 +206,13 @@ class KeuanganController extends Controller
 
             $today =$result->jatuh_tempo; // Tanggal hari ini
             $lama = $result->lama_nyewa;
-            $nextMonth = date('Y-m-d', strtotime("+$lama day", strtotime($today)));
+            // $nextMonth = date('Y-m-d', strtotime("+$lama day", strtotime($today)));
+            // NyewaModel::where("id",$id)->update([
+            //     'jatuh_tempo'   => $nextMonth
+            // ]);
             NyewaModel::where("id",$id)->update([
-                'jatuh_tempo'   => $nextMonth
-            ]);
+                'status'    =>  'selesai'
+            ]); 
             return redirect()->back()->with('success',"Data Berhasil Di Tambahkan");
         } catch (\Throwable $th) {
             return redirect()->back()->with('success',"Data Gagal Di Tambahkan");

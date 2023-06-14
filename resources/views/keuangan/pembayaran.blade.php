@@ -16,6 +16,9 @@
                 <h5>Nama Penyedia : {{ $main->nama_penyedia }}</h5>
                 <h5>Nama Alat : {{ $main->alat->nama }}</h5>
                 <h5>Biaya : Rp. {{ number_format($main->biaya,0) }}</h5>
+                @if ($hasil->status == "selesai")
+                <h5>Status : <span class="badge badge-pill badge-success bg-success">Lunas</span></h5>
+                @endif
             </div>
             <br>
             @if (session('success'))
@@ -106,7 +109,7 @@
                     <div class="col-md-6 mt-4">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Pembayaran {{ $loop->iteration }}</h5>
+                                <h5>Pembayaran  </h5>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group">
