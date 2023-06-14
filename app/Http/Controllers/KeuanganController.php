@@ -20,11 +20,24 @@ class KeuanganController extends Controller
      */
     public function index()
     {
-        
-        $data = [
-            'result'    =>  PenyewaanModel::orderby('id', 'desc')->get(),
-        ];
-        return view("keuangan.index", $data);
+        $sesi = session('role');
+        $id = session('id');
+        if($sesi == '2') {
+            $penyewaan = PenyewaanModel::orderBy('id', 'desc')->get();
+
+            $data = [
+                'result'    =>  $penyewaan,
+                'id'    =>  $id
+            ];
+            return view("keuangan.keuangan_index", $data);
+
+        } else {
+
+            $data = [
+                'result'    =>  PenyewaanModel::orderby('id', 'desc')->get(),
+            ];
+            return view("keuangan.index", $data);
+        }
     }
 
     public function print_laporan(Request $request)
@@ -48,6 +61,7 @@ class KeuanganController extends Controller
             }
             $query = NyewaModel::where('penyewaan_id', $id)
                 ->whereBetween('created_at', [$start, $end])
+                ->where("status","selesai")
                 ->get();
                 
                 $total = NyewaModel::join('pembayaran', 'nyewa.id', '=', 'pembayaran.nyewa_id')
@@ -91,6 +105,7 @@ class KeuanganController extends Controller
             'first' =>  PenyewaanModel::where("id", $result->penyewaan_id)->first(),
             'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id', $result->user_id)->count()
         ];
+        // dd(session())
         return view("keuangan.pembayaran", $data);
     }
 

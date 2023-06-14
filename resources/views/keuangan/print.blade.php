@@ -50,7 +50,7 @@
         <div class="row_1"> 
             <h4>Tanggal Mulai : {{ date("d, F Y",strtotime($mulai)) }} </h4>
             <h4>Tanggal Akhir : {{ date("d, F Y",strtotime($akhir)) }} </h4>
-            <h4>Total Pendapata : Rp.   {{ number_format($hasil) }}</h4>
+            <h4>Total Pendapatan : Rp.   {{ number_format($hasil) }}</h4>
         </div>
     </div>
     <table>
@@ -76,21 +76,20 @@
                 
             @endphp
                <tr>
-                <th>{{ $loop->iteration }}</th>
-                <th>{{ $hasil_nyewa->nama_penyedia }}</th>
-                <th>{{ $nama_alat->nama }}</th>
-                <th>{{ $row->unit_sewa }} Unit</th>
-                
-                <th>Lama Nyewa</th>
-                <th>Dibuat</th>
-                <th>Jatuh Tempo</th>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $hasil_nyewa->nama_penyedia }}</td>
+                <td>{{ $nama_alat->nama }}</td>
+                <td>{{ $row->unit_sewa }} Unit</td>
+                <td>{{ $row->lama_nyewa }} Hari</td>
+                <td>{{ date("d, F Y",strtotime($row->created_at)) }}</td>
+                <td>{{ date("d, F Y",strtotime($row->jatuh_tempo)) }}</td>
                </tr>
             @endforeach
         </tbody>
     </table>
-    {{-- <script>
+    <script>
         window.print()
-    </script> --}}
+    </script>
 </body>
 
 </html>
