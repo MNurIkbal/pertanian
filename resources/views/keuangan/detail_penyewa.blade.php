@@ -15,7 +15,7 @@
             <div>
                 <h5 class="card-header">Detail Keuangan </h5>
             <h5 style="margin-left: 20px">Nama Penyewa : {{ $first->nama_penyedia }}</h5>
-            <h5 style="margin-left: 20px">Nama ALat : {{ $first->alat->nama }}</h5>
+            <h5 style="margin-left: 20px">Nama Alat : {{ $first->alat->nama }}</h5>
             <h5 style="margin-left: 20px">Pendapatan : Rp.{{ number_format($total->total_nominal,0) }}</h5>
             </div>
             <br>
@@ -45,7 +45,6 @@
                                     <th>Jatuh Tempo</th>
                                     <th>Alamat</th>
                                     <th>Dibuat</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -73,13 +72,7 @@
                                         <td>{{ date('d, F Y', strtotime($row->jatuh_tempo)) }}</td>
                                         <td>{{ $row->alamat }}</td>
                                         <td>{{ date('d, F Y', strtotime($row->created_at)) }}</td>
-                                        <td>
-                                            <a href="{{ url('bayar/' . $row->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-clipboard"></i></a>
-                                            {{-- @if ($role == 1)
-                                            @else
-                                            <a href="{{ url('bayar_pekerjaan/' . $row->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-clipboard"></i></a>
-                                            @endif --}}
-                                        </td>
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>

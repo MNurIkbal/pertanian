@@ -15,7 +15,7 @@
             <div style="margin-left: 20px;">
                 <h5>Nama Penyedia : {{ $main->nama_penyedia }}</h5>
                 <h5>Nama Alat : {{ $main->alat->nama }}</h5>
-                <h5>Biaya : Rp. {{ number_format($main->biaya,0) }}</h5>
+                
                 @if ($hasil->status == "selesai")
                 <h5>Status : <span class="badge badge-pill badge-success bg-success">Lunas</span></h5>
                 @endif
@@ -51,7 +51,7 @@
                            <div class="modal-body">
                             <div class="mb-1">
                                 <label for="">Nominal</label>
-                                <input type="text" class="form-control" required placeholder="Nominal" name="nominal" id="" readonly value="{{ number_format($first->biaya) }}">
+                                <input type="text" class="form-control" required placeholder="Nominal" name="nominal" id="" readonly value="{{ number_format($total_sewa) }}">
                             </div>
                             <br>  
                             <div class="mb-1">
@@ -86,40 +86,7 @@
                                     <li class="list-group-item">Dibuat : {{ date("d, F Y",strtotime($row->created_at)) }}</li>
                                     
                                     <li class="list-group-item">Pesan : {{ $row->pesan }}</li>
-                                    <li class="list-group-item">
-                                        <a href="{{ asset("assets/img/" . $row->img) }}" download class="btn btn-success">Download</a>
-                                        @if ($hasil->status == "aktif")
-                                        <a href="#"  class="btn btn-primary"  data-bs-toggle="modal"
-                                        data-bs-target="#edit{{ $row->id }}">Edit</a>
-                                        <div class="modal fade" id="edit{{ $row->id }}" tabindex="-1"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog  modal-lg" role="document">
-                                            <form method="POST" enctype="multipart/form-data" class="modal-content"
-                                                action="{{ url('edit_bayar_sekarang') }}">
-                                                <input type="hidden" name="id" value="{{ $id }}">
-                                                @csrf
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalFullTitle">Edit Pembayaran</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                               <div class="modal-body">
-                                                <br>  
-                                                <div class="mb-1">
-                                                    <label for="">Pesan</label>
-                                                    <textarea name="pesan" id="pesan" class="form-control" required placeholder="Pesan" cols="30" rows="10">{{ $row->pesan }}</textarea>
-                                                </div>
-                                                <br>  
-                                               </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                        <a href="{{ url('hapus_bayar/' . $row->id) }}"  class="btn btn-danger">Hapus</a>
-                                        @endif
-                                    </li>
+                                
                                 </ul>
                             </div>
                         </div>

@@ -20,7 +20,7 @@ class KeuanganController extends Controller
     public function index()
     {
         $data = [
-            'result'    =>  PenyewaanModel::all(),
+            'result'    =>  PenyewaanModel::orderby('id','desc')->get(),
         ];
         return view("keuangan.index", $data);
     }
@@ -30,18 +30,20 @@ class KeuanganController extends Controller
         if(!$results) {
             return redirect()->to('penyewaan');
         }
-        $check = NyewaModel::where("id",$id)->first();
         $result = NyewaModel::where("id", $id)->first();
+        $rt = PenyewaanModel::where("id",$result->penyewaan_id)->first();
+        $total_sewa = $result->unit_sewa * $rt->biaya;
         $data = [
             'result'    =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->get(),
             'id'    =>  $id,
+            'total_sewa'    =>  $total_sewa,
             'user_id'   =>  $result->user_id,
             'hasil' =>  $result,
             'ids'   =>  $result->penyewaan_id,
-            'main'  =>  PenyewaanModel::where("id",$result->penyewaan_id)->first()  ,
+            'main'  =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
             'first' =>  PenyewaanModel::where("id",$result->penyewaan_id)->first(),
             'check' =>  PembayaranModel::where("nyewa_id", $id)->where('user_id',$result->user_id)->count()
-        ];
+        ];  
         return view("keuangan.pembayaran", $data);
     }
 
@@ -161,11 +163,11 @@ class KeuanganController extends Controller
             $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
     
             $rupiah = str_replace(",", "", $request->nominal);
-            if($rupiah > $check->biaya) {
-                return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
-            } elseif($rupiah < $check->biaya) {
-                return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
-            }
+            // if($rupiah > $check->biaya) {
+            //     return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
+            // } elseif($rupiah < $check->biaya) {
+            //     return redirect()->back()->with('error','Maaf Nominal Anda Kurang');
+            // }
 
             $bayar = new PembayaranModel();
             $bayar->user_id = $result->user_id;
