@@ -48,7 +48,7 @@
                            <div class="modal-body">
                             <div class="mb-1">
                                 <label for="">Nominal</label>
-                                <input type="text" class="form-control" required placeholder="Nominal" name="nominal" id="bayars">
+                                <input type="text" class="form-control" required placeholder="Nominal" name="nominal" id="" readonly value="{{ number_format($first->biaya) }}">
                             </div>
                             <script type="text/javascript">
 		

@@ -174,6 +174,7 @@ class KeuanganController extends Controller
             $check = PenyewaanModel::where("id",$result->penyewaan_id)->first();
     
             $rupiah = str_replace(".", "", $request->nominal);
+            dd($rupiah);
             if($rupiah > $check->biaya) {
                 return redirect()->back()->with('error','Maaf Nominal Anda Lebih');
             } elseif($rupiah < $check->biaya) {
