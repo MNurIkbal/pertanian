@@ -47,10 +47,11 @@
                                 @foreach ($result as $row)
                                     @php
                                         $da = App\Models\PenyewaanModel::where('id', $row->penyewaan_id)->first();
+                                        $nama_nyewa = App\Models\User::where("id",$row->user_id)->first();
                                     @endphp
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $da->nama_penyedia }}</td>
+                                        <td>{{ $nama_nyewa->nama }}</td>
                                         <td>{{ $da->alat->nama }}</td>
                                         <td>Rp. {{ number_format($da->biaya, 0) }}</td>
                                         <td>{{ $row->lama_nyewa }} Hari</td>
